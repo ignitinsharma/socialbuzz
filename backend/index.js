@@ -1,26 +1,34 @@
-import express from "express";
-import dotenv from "dotenv";
-import bodyParser from "body-parser";
-import mongoose from "mongoose";
-import cors from "cors";
-import multer from "multer";
-import morgan from "morgan";
-import path from "path";
+const express = require("express");
+const { connect } = require("./Config/db");
+const { authRoute } = require("./Controller/auth");
+// const { register } = require("./Controller/auth");
 
-dotenv.config();
+require("dotenv").config();
 const server = express();
-server.use("/", (req, res) => {
-  res.send("Home page");
-});
+const cors = require("cors");
+const { userRoute } = require("./Routes/users.route");
 server.use(express.json());
 
-const RUNPORT = process.env.PORT || 8080;
-mongoose
-  .connect(process.env.mongoURL)
-  .then(() => {
-    server.listen(PORT, (req, res) => {
-      console.log(`Server on running Port: ${RUNPORT}`);
-      res.end(`Server on running Port: ${RUNPORT}`);
-    });
+server.use(
+  cors({
+    origin: "*",
   })
-  .catch((error) => console.log(`${error} something went wrong `));
+);
+
+server.use("/auth", authRoute);
+
+/* Routes */
+app.use("/user", userRoute);
+// app.use("/posts", postRoutes);
+
+/* Running server */
+server.listen(process.env.port || 8081, async () => {
+  try {
+    await connect;
+    console.log("Connected to successfully.");
+  } catch (error) {
+    console.log(`something went wrong ${error.message}`);
+  }
+
+  console.log(`Server is running on the port ${process.env.port}`);
+});
