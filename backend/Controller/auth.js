@@ -1,11 +1,11 @@
-const { userModel } = require("../Model/users.model");
+const { userModel } = require("../Model/users.model.js");
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-const authRoute = express.Router();
+const authController = express.Router();
 
-authRoute.post("/register", async (req, res) => {
+authController.post("/register", async (req, res) => {
   /* Getting the things from the frontend  */
   const {
     firstName,
@@ -40,7 +40,7 @@ authRoute.post("/register", async (req, res) => {
   }
 });
 
-authRoute.post("/login", async (req, res) => {
+authController.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await userModel.findOne({ email: email });
@@ -64,5 +64,5 @@ authRoute.post("/login", async (req, res) => {
 });
 
 module.exports = {
-  authRoute,
+  authController,
 };

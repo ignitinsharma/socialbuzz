@@ -1,12 +1,13 @@
 const express = require("express");
 const { connect } = require("./Config/db");
-const { authRoute } = require("./Controller/auth");
-// const { register } = require("./Controller/auth");
+const { authController } = require("./Controller/auth");
 
 require("dotenv").config();
 const server = express();
 const cors = require("cors");
 const { userRoute } = require("./Routes/users.route");
+const { postsRoute } = require("./Routes/post.route");
+const { createPost } = require("./Controller/posts");
 server.use(express.json());
 
 server.use(
@@ -15,11 +16,13 @@ server.use(
   })
 );
 
-server.use("/auth", authRoute);
+/* Auth controllers */
+server.use("/auth", authController);
+// server.post("/posts", verifyToken, createPost);
 
 /* Routes */
-app.use("/user", userRoute);
-// app.use("/posts", postRoutes);
+server.use("/user", userRoute);
+server.use("/posts", postsRoute);
 
 /* Running server */
 server.listen(process.env.port || 8081, async () => {
