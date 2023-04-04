@@ -5,3 +5,8 @@
   margin: 0;
   padding: 0;
 }
+
+:root {
+  --primary-color: #13b987;
+  --grey-color: #dadada;
+}
