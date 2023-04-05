@@ -39,7 +39,7 @@ const Login = () => {
       .then((res) => {
         const { token, user } = res.data;
         if (token) {
-          dispatch(setLogin({ payload: user, token }));
+          dispatch(setLogin(user, token));
           toast({
             title: "Login Successful..😁",
             status: "success",
