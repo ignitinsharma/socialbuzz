@@ -37,7 +37,7 @@ const RegisterForm = () => {
       .post("http://localhost:8080/auth/register", formData)
       .then((response) => {
         toast({
-          title: "Account created.",
+          title: "Account created successfully..😁",
           status: "success",
           duration: 9000,
           isClosable: true,
@@ -46,7 +46,7 @@ const RegisterForm = () => {
       .catch((error) => {
         console.error(error);
         toast({
-          title: "Fill details correctly.",
+          title: "Fill details correctly..😶",
           status: "error",
           duration: 9000,
           isClosable: true,

@@ -7,18 +7,58 @@ import {
   Box,
   Text,
   Flex,
+  useToast,
 } from "@chakra-ui/react";
 import Loginpng from "../../assets/login.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setLogin } from "../../Redux/action";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  let maincolor = "var(--maincolor)";
+  const dispatch = useDispatch();
+  const toast = useToast();
+  const navigate = useNavigate();
+  const [loginFormData, setloginFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setloginFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Your login logic goes here
+    axios
+      .post("http://localhost:8080/auth/login", loginFormData)
+      .then((res) => {
+        const { token, user } = res.data;
+        if (token) {
+          dispatch(setLogin({ payload: user, token }));
+          toast({
+            title: "Login Successful..😁",
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+          });
+          navigate("/home");
+        }
+      })
+      .catch((error) => {
+        console.error(error, "failed");
+        toast({
+          title: "Wrong credential.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      });
+    console.log(loginFormData);
   };
 
   return (
@@ -61,9 +101,10 @@ const Login = () => {
               <FormLabel>Email address</FormLabel>
               <Input
                 type="email"
+                name="email"
                 placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={loginFormData.email}
+                onChange={handleInputChange}
               />
             </FormControl>
 
@@ -71,9 +112,10 @@ const Login = () => {
               <FormLabel>Password</FormLabel>
               <Input
                 type="password"
+                name="password"
                 placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={loginFormData.password}
+                onChange={handleInputChange}
               />
             </FormControl>
 
