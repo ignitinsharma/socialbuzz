@@ -5,12 +5,14 @@ import {
   FormLabel,
   Input,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 const RegisterForm = () => {
+  const toast = useToast();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -34,15 +36,23 @@ const RegisterForm = () => {
     axios
       .post("http://localhost:8080/auth/register", formData)
       .then((response) => {
-        console.log(response.data);
-        // do something with the response data
+        toast({
+          title: "Account created.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
       })
       .catch((error) => {
         console.error(error);
-        // handle the error
+        toast({
+          title: "Fill details correctly.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
       });
   };
-
   return (
     <div>
       <form onSubmit={handleFormSubmit}>
