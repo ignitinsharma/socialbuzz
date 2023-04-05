@@ -1,5 +1,6 @@
 const express = require("express");
-const { connect } = require("./Config/db");
+const mongoose = require("mongoose");
+mongoose.set("strictQuery", false);
 const { authController } = require("./Controller/auth");
 
 require("dotenv").config();
@@ -25,13 +26,22 @@ server.use("/user", userRoute);
 server.use("/posts", postsRoute);
 
 /* Running server */
-server.listen(process.env.port || 8081, async () => {
-  try {
-    await connect;
-    console.log("Connected to successfully.");
-  } catch (error) {
-    console.log(`something went wrong ${error.message}`);
-  }
+// server.listen(process.env.port || 8081, async () => {
+//   try {
+//     await connect;
 
-  console.log(`Server is running on the port ${process.env.port}`);
+//   } catch (error) {
+//     console.log(`something went wrong ${error.message}`);
+//   }
+
+//   console.log(`Server is running on the port ${process.env.port}`);
+// });
+
+server.listen(process.env.port, () => {
+  mongoose
+    .connect(process.env.mongoURL)
+    .then(() =>
+      console.log(`Connected to successfully on port: ${process.env.port}.`)
+    )
+    .catch((err) => console.log(err.message));
 });
