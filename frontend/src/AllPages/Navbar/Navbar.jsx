@@ -21,23 +21,7 @@ import { HamburgerIcon, CloseIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { setLogout } from "../../Redux/action";
 
-const Links = [
-  {
-    title: "Home",
-    id: 1,
-    path: "/",
-  },
-  {
-    title: "Mens",
-    id: 2,
-    path: "/mens",
-  },
-  {
-    title: "Women",
-    id: 3,
-    path: "/women",
-  },
-];
+const Links = [];
 
 export default function Navbar() {
   const user = useSelector((state) => state.user);
@@ -66,7 +50,7 @@ export default function Navbar() {
           />
           <HStack spacing={8} alignItems={"center"}>
             <Text
-              _hover={{ color: "var(--main-color)", transition: "0.3s" }}
+              color="var(--main-color)"
               cursor={"pointer"}
               onClick={() => navigate("/home")}
               fontSize={{ lg: "1.4rem", md: "1.3rem", sm: "1rem" }}
@@ -94,21 +78,23 @@ export default function Navbar() {
             </HStack>
           </HStack>
           <Flex alignItems={"center"}>
-            <Box mr={4}>
-              <Link href="">
-                <SearchIcon />
-              </Link>
-            </Box>
-            {/* <Box mr={4}>
+            <Flex>
+              <Box mr={4}>
+                <Link href="">
+                  <SearchIcon />
+                </Link>
+              </Box>
+              {/* <Box mr={4}>
               <Link href="cart">
-                <LocalMall />
+              <LocalMall />
               </Link>
             </Box> */}
-            <Box mr={1}>
-              <Link href="signup">
-                <PersonIcon />
-              </Link>
-            </Box>
+              <Box mr={1}>
+                <Link href="signup">
+                  <PersonIcon />
+                </Link>
+              </Box>
+            </Flex>
             <Box mr={1}>
               <Menu>
                 <MenuButton
