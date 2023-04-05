@@ -9,6 +9,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import Loginpng from "../../assets/login.svg";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -86,6 +87,16 @@ const Login = () => {
             >
               Log In
             </Button>
+            <Link to="/register">
+              <Text
+                color="var(--main-color)"
+                _hover={{ color: "var(--black-color)" }}
+                fontSize={"0.8rem"}
+                py="1rem"
+              >
+                Don't have Account Register...
+              </Text>
+            </Link>
           </form>
         </Box>
         <Box mt="2rem">
