@@ -26,16 +26,6 @@ server.use("/user", userRoute);
 server.use("/posts", postsRoute);
 
 /* Running server */
-// server.listen(process.env.port || 8081, async () => {
-//   try {
-//     await connect;
-
-//   } catch (error) {
-//     console.log(`something went wrong ${error.message}`);
-//   }
-
-//   console.log(`Server is running on the port ${process.env.port}`);
-// });
 
 server.listen(process.env.port, () => {
   mongoose
