@@ -24,12 +24,17 @@ import { setLogout } from "../../Redux/action";
 const Links = [];
 
 export default function Navbar() {
-  const user = useSelector((state) => state.user);
+  let userObject = JSON.parse(localStorage.getItem("userdataAndtoken"));
+  const user = userObject.user;
   const dispatch = useDispatch();
-  // const fullName = `${user.firstName} ${user.lastName}`;
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const handleLogoutClick = () => {
+    dispatch(setLogout());
+    localStorage.removeItem("userdataAndtoken");
+    navigate("/");
+  };
   return (
     <>
       <Box
@@ -103,12 +108,13 @@ export default function Navbar() {
                   as={Button}
                   rightIcon={<ChevronDownIcon />}
                 >
-                  person name
+                  <Text
+                    fontSize={"14px"}
+                    _firstLetter={{ textTransform: "capitalize;" }}
+                  >{`${user.firstName} ${user.lastName}`}</Text>
                 </MenuButton>
                 <MenuList>
-                  <MenuItem onClick={() => dispatch(setLogout())}>
-                    Logout
-                  </MenuItem>
+                  <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
                 </MenuList>
               </Menu>
             </Box>
