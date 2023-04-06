@@ -13,7 +13,13 @@ const UserSection = () => {
   const [userData, setUserData] = useState(null);
 
   return (
-    <Box border={"1px solid red"} w={"20%"}>
+    <Box
+    //   position={"sticky"}
+      top={"20px"}
+      border={"1px solid red"}
+      //   m={"auto"}
+      w={{ lg: "20%", md: "90%", sm: "90%" }}
+    >
       <Flex pr={"10px"} justifyContent={"space-between"}>
         <Flex columnGap={"5px"}>
           <Image
