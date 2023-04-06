@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 const { authController } = require("./Controller/auth");
+const { verifyToken } = require("./Middleware/auth.middlware");
 
 require("dotenv").config();
 const server = express();
@@ -19,7 +20,7 @@ server.use(
 
 /* Auth controllers */
 server.use("/auth", authController);
-// server.post("/posts", verifyToken, createPost);
+server.post("/posts", verifyToken, createPost);
 
 /* Routes */
 server.use("/user", userRoute);

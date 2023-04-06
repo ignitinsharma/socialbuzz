@@ -125,7 +125,6 @@ const Login = () => {
               _hover={{ bg: "var(--black-color)" }}
               bg={"var(--main-color)"}
               mt={4}
-              isFullWidth
             >
               Log In
             </Button>
