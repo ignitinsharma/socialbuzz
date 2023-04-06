@@ -19,16 +19,17 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 
 const PostSection = () => {
+  let userObject = JSON.parse(localStorage.getItem("userdataAndtoken"));
+  // console.log("userObject post section:", userObject.user);
+
   const toast = useToast();
   const [postData, setpostData] = useState({
     description: "",
     picturePath: "",
   });
-  const user = useSelector((store) => store.user);
-  const token = useSelector((store) => store.token);
-  // wanna uncomment
-  //   const userId = user._id;
-  //   console.log("userId:", userId);
+  const user = userObject.user;
+  const token = userObject.token;
+  const userId = userObject.user._id;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleValueChange = (event) => {
@@ -40,7 +41,7 @@ const PostSection = () => {
   };
   let postObjectwithId = {
     // wanna uncommant after some time
-    // userId,
+    userId,
     description: postData.description,
     picturePath: postData.picturePath,
   };

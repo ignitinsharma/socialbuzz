@@ -7,7 +7,9 @@ import WorkIcon from "@mui/icons-material/Work";
 import { useNavigate } from "react-router-dom";
 
 const UserSection = () => {
-  const user = useSelector((store) => store.user);
+  let userObject = JSON.parse(localStorage.getItem("userdataAndtoken"));
+  const user = userObject.user;
+  console.log("user:", user);
   const navigate = useNavigate();
   //   console.log("user:", user);
   const [userData, setUserData] = useState(null);
@@ -24,18 +26,19 @@ const UserSection = () => {
           <Image
             borderRadius="full"
             boxSize="50px"
-            src="https://bit.ly/dan-abramov"
+            src={user.picturePath}
             alt="Dan Abramov"
           />
           <Box>
             <Text
+              _firstLetter={{ textTransform: "capitalize;" }}
               cursor={"pointer"}
               onClick={() => navigate(`/profile/${user._id}`)}
               fontWeight={"bold"}
             >
-              Name
+              {`${user.firstName} ${user.lastName}`}
             </Text>
-            <Text fontSize={"12px"}>10 friends</Text>
+            <Text fontSize={"12px"}>{user.friends.length} friends</Text>
           </Box>
         </Flex>
         <Box cursor={"pointer"}>
@@ -46,14 +49,22 @@ const UserSection = () => {
       <Box p="2px">
         <Flex>
           <WorkIcon style={{ fontSize: "1rem" }} />
-          <Text ml={"5px"} fontSize={"12px"}>
-            Software engineer
+          <Text
+            _firstLetter={{ textTransform: "capitalize;" }}
+            ml={"5px"}
+            fontSize={"12px"}
+          >
+            {user.occupation}
           </Text>
         </Flex>
         <Flex>
           <LocationOnIcon style={{ fontSize: "1rem" }} />
-          <Text ml={"5px"} fontSize={"12px"}>
-            USA
+          <Text
+            _firstLetter={{ textTransform: "capitalize;" }}
+            ml={"5px"}
+            fontSize={"12px"}
+          >
+            {user.location}
           </Text>
         </Flex>
       </Box>
