@@ -14,11 +14,10 @@ const UserSection = () => {
 
   return (
     <Box
-    //   position={"sticky"}
-      top={"20px"}
+      //   position={"sticky"}
+      top={"23px"}
       border={"1px solid red"}
-      //   m={"auto"}
-      w={{ lg: "20%", md: "90%", sm: "90%" }}
+      w={{ lg: "23%", md: "90%", sm: "90%" }}
     >
       <Flex pr={"10px"} justifyContent={"space-between"}>
         <Flex columnGap={"5px"}>

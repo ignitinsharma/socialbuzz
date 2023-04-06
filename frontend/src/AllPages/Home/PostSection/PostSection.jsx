@@ -71,10 +71,10 @@ const PostSection = () => {
     // console.log("postObjectwithId:", postObjectwithId);
   };
   return (
-    <Box w={"50%"} h="auto" border={"1px solid black"}>
+    <Box bg={"#F6F8FA"} h="fit-content">
       <Flex
         p={"0.5rem"}
-        w={"80%"}
+        w={"95%"}
         _hover={{
           boxShadow:
             "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",
@@ -82,7 +82,6 @@ const PostSection = () => {
         }}
         m="auto"
         borderRadius={"10px"}
-        border={"none"}
         _focus={{ border: "none" }}
         onClick={onOpen}
       >
@@ -95,7 +94,7 @@ const PostSection = () => {
           />
           <Input
             fontSize={"13px"}
-            style={{ width: "20rem" }}
+            style={{ width: "30rem" }}
             ml="10px"
             placeholder="share content.. "
             type="text"
