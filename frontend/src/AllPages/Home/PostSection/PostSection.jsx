@@ -90,7 +90,7 @@ const PostSection = () => {
           <Image
             borderRadius="full"
             boxSize="40px"
-            src="https://bit.ly/dan-abramov"
+            src={user.picturePath}
             alt="Dan Abramov"
           />
           <Input
