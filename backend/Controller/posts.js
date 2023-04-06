@@ -21,7 +21,7 @@ const createPost = async (req, res) => {
     });
     await newPost.save();
 
-    /* if user did post successfull then i'm just returing 
+    /* if user did post successful then i'm just returing 
     all the post on the feed */
     const allUpdatedPost = await postModel.find();
     res.status(201).send(allUpdatedPost);
