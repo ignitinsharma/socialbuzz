@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 const PostFeed = () => {
   let userObject = JSON.parse(localStorage.getItem("userdataAndtoken"));
   const [allPosts, setAllPosts] = useState([]);
+  let user = userObject.user;
+  // console.log('user:', user)
 
   const headers = {
     Authorization: userObject.token,
@@ -29,16 +31,24 @@ const PostFeed = () => {
             <Image
               borderRadius="full"
               boxSize="40px"
-              src="https://ichef.bbci.co.uk/news/976/cpsprodpb/AE34/production/_129169544_gettyimages-1459166551.jpg"
+              src={ele.userPicturePath}
               alt="Dan Abramov"
             />
-            <Text
-              _firstLetter={{ textTransform: "capitalize;" }}
-              ml={"10px"}
-              fontWeight={"bold"}
-            >
-              {`${ele.firstName} ${ele.lastName}`}
-            </Text>
+            <Box ml={"10px"}>
+              <Text
+                _firstLetter={{ textTransform: "capitalize;" }}
+                fontWeight={"bold"}
+              >
+                {`${ele.firstName} ${ele.lastName}`}
+              </Text>
+              <Text
+                color={"var(--main-color)"}
+                fontSize={"12px"}
+                _hover={{ fontSize: "bold" }}
+              >
+                #socialbuzz
+              </Text>
+            </Box>
           </Flex>
           <Box w="80%" m="auto">
             <Text

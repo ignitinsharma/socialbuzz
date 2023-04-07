@@ -15,10 +15,11 @@ const Home = () => {
       <Flex
         display={{ lg: "flex", md: "block", sm: "block" }}
         pt={"5.5rem"}
-        w={"90%"}
+        w={"92%"}
         m="auto"
+        px={"20px"}
         border={"1px solid green"}
-        h="100rem"
+        h="auto"
         // justifyContent={'space-between'}
       >
         <UserSection />

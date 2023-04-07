@@ -18,7 +18,6 @@ const UserSection = () => {
     <Box
       //   position={"sticky"}
       top={"23px"}
-      border={"1px solid red"}
       w={{ lg: "23%", md: "90%", sm: "90%" }}
     >
       <Flex pr={"10px"} justifyContent={"space-between"}>
