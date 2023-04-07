@@ -70,6 +70,7 @@ const PostFeed = () => {
               }}
               src={ele.picturePath}
               alt="Dan Abramov"
+              objectFit={"cover"}
             />
           </Box>
         </Box>

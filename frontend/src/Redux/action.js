@@ -2,14 +2,10 @@ import {
   SET_FRIENDS,
   SET_LOGIN,
   SET_LOGOUT,
-  SET_MODE,
   SET_POST,
   SET_POSTS,
 } from "./actionTypes";
 
-export const setMode = () => (dispatch) => {
-  dispatch({ type: SET_MODE });
-};
 
 export const setLogin = (user, token) => (dispatch) => {
   dispatch({ type: SET_LOGIN, payload: { user, token } });

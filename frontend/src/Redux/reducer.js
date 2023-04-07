@@ -16,9 +16,6 @@ const initialState = {
 
 export const mainReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case SET_MODE: {
-      return { ...state, mode: state.mode === "light" ? "dark" : "light" };
-    }
     case SET_LOGIN: {
       return {
         ...state,
