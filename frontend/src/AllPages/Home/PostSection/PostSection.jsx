@@ -72,7 +72,7 @@ const PostSection = () => {
     // console.log("postObjectwithId:", postObjectwithId);
   };
   return (
-    <Box bg={"#F6F8FA"} h="fit-content">
+    <Box top={"0"} position={"sticky"} bg={"#F6F8FA"} h="fit-content">
       <Flex
         p={"0.5rem"}
         w={"95%"}

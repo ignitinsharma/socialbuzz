@@ -16,7 +16,6 @@ const UserSection = () => {
 
   return (
     <Box
-      //   position={"sticky"}
       top={"23px"}
       w={{ lg: "23%", md: "90%", sm: "90%" }}
     >

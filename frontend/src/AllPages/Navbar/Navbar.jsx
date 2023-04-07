@@ -40,10 +40,10 @@ export default function Navbar() {
       <Box
         zIndex={9999}
         w={"100%"}
-        position={"fixed"}
         bg={useColorModeValue("white")}
         px={4}
-        border={"1px solid black"}
+        h={"5rem"}
+        borderBottom={"1.5px solid #E1E4E8"}
       >
         <Flex h={20} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton

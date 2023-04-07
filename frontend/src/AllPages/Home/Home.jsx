@@ -2,9 +2,7 @@ import { Box } from "@mui/material";
 import React from "react";
 import Navbar from "../Navbar/Navbar";
 import UserSection from "./UserSection/UserSection";
-import { Flex, VStack } from "@chakra-ui/react";
-import PostSection from "./PostSection/PostSection";
-import PostFeed from "./PostSection/PostFeed";
+import { Flex } from "@chakra-ui/react";
 import FriendSection from "./FriendSection/FriendSection";
 import PostContainer from "./PostSection/PostContainer";
 
@@ -14,13 +12,13 @@ const Home = () => {
       <Navbar />
       <Flex
         display={{ lg: "flex", md: "block", sm: "block" }}
-        pt={"5.5rem"}
+        pt={"1rem"}
         w={"92%"}
         m="auto"
         px={"20px"}
-        border={"1px solid green"}
+        borderX={"1.5px solid #E1E4E8"}
+        borderBottom={"1.5px solid #E1E4E8"}
         h="auto"
-        // justifyContent={'space-between'}
       >
         <UserSection />
         <PostContainer />
