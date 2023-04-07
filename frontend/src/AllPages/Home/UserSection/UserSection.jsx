@@ -15,10 +15,7 @@ const UserSection = () => {
   const [userData, setUserData] = useState(null);
 
   return (
-    <Box
-      top={"23px"}
-      w={{ lg: "23%", md: "90%", sm: "90%" }}
-    >
+    <Box w={{ lg: "23%", md: "90%", sm: "90%" }}>
       <Flex pr={"10px"} justifyContent={"space-between"}>
         <Flex columnGap={"5px"}>
           <Image
@@ -26,6 +23,7 @@ const UserSection = () => {
             boxSize="50px"
             src={user.picturePath}
             alt="Dan Abramov"
+            objectFit={"cover"}
           />
           <Box>
             <Text

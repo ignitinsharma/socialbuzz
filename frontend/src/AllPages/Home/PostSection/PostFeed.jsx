@@ -6,11 +6,12 @@ import { useSelector } from "react-redux";
 const PostFeed = () => {
   let userObject = JSON.parse(localStorage.getItem("userdataAndtoken"));
   const [allPosts, setAllPosts] = useState([]);
+  const { token } = useSelector((store) => store);
   let user = userObject.user;
   // console.log('user:', user)
 
   const headers = {
-    Authorization: userObject.token,
+    Authorization: userObject.token || token,
   };
   const fetchPost = () => {
     axios.get(`http://localhost:8080/posts`, { headers }).then((res) => {
@@ -33,6 +34,7 @@ const PostFeed = () => {
               boxSize="40px"
               src={ele.userPicturePath}
               alt="Dan Abramov"
+              objectFit={"cover"}
             />
             <Box ml={"10px"}>
               <Text

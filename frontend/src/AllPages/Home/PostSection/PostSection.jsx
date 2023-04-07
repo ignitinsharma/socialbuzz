@@ -92,6 +92,7 @@ const PostSection = () => {
             boxSize="40px"
             src={user.picturePath}
             alt="Dan Abramov"
+            objectFit={"cover"}
           />
           <Input
             fontSize={"13px"}
