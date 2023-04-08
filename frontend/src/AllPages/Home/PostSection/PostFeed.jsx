@@ -4,14 +4,12 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const PostFeed = () => {
-  let userObject = JSON.parse(localStorage.getItem("userdataAndtoken"));
-  const [allPosts, setAllPosts] = useState([]);
+  const user = useSelector((store) => store.user);
   const { token } = useSelector((store) => store);
-  let user = userObject.user;
-  // console.log('user:', user)
+  const [allPosts, setAllPosts] = useState([]);
 
   const headers = {
-    Authorization: userObject.token || token,
+    Authorization: token,
   };
   const fetchPost = () => {
     axios.get(`http://localhost:8080/posts`, { headers }).then((res) => {

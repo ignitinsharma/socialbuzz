@@ -24,15 +24,13 @@ import { setLogout } from "../../Redux/action";
 const Links = [];
 
 export default function Navbar() {
-  let userObject = JSON.parse(localStorage.getItem("userdataAndtoken"));
-  const user = userObject.user;
+  const user = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleLogoutClick = () => {
     dispatch(setLogout());
-    localStorage.removeItem("userdataAndtoken");
     navigate("/");
   };
   return (

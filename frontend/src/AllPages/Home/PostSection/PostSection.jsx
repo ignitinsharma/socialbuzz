@@ -19,17 +19,15 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 
 const PostSection = () => {
-  let userObject = JSON.parse(localStorage.getItem("userdataAndtoken"));
-  // console.log("userObject post section:", userObject.user);
+  const { user, token } = useSelector((store) => store);
 
   const toast = useToast();
   const [postData, setpostData] = useState({
     description: "",
     picturePath: "",
   });
-  const user = userObject.user;
-  const token = userObject.token;
-  const userId = userObject.user._id;
+
+  const userId = user._id;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleValueChange = (event) => {

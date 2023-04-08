@@ -16,7 +16,6 @@ import { useDispatch } from "react-redux";
 import { setLogin } from "../../Redux/action";
 
 const Login = () => {
-  let userObject = JSON.parse(localStorage.getItem("userdataAndtoken")) || {};
   const dispatch = useDispatch();
   const toast = useToast();
   const navigate = useNavigate();
@@ -47,9 +46,6 @@ const Login = () => {
             duration: 9000,
             isClosable: true,
           });
-          userObject.token = token;
-          userObject.user = user;
-          localStorage.setItem("userdataAndtoken", JSON.stringify(userObject));
           navigate("/home");
         }
       })

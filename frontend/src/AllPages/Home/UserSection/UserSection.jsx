@@ -7,11 +7,8 @@ import WorkIcon from "@mui/icons-material/Work";
 import { useNavigate } from "react-router-dom";
 
 const UserSection = () => {
-  let userObject = JSON.parse(localStorage.getItem("userdataAndtoken"));
-  const user = userObject.user;
-  // console.log("user:", user);
+  const user = useSelector((store) => store.user);
   const navigate = useNavigate();
-  //   console.log("user:", user);
   const [userData, setUserData] = useState(null);
 
   return (

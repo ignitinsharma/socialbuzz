@@ -6,7 +6,6 @@ import {
   SET_POSTS,
 } from "./actionTypes";
 
-
 export const setLogin = (user, token) => (dispatch) => {
   dispatch({ type: SET_LOGIN, payload: { user, token } });
 };
