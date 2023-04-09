@@ -42,7 +42,6 @@ const PostFeed = () => {
                   textDecorationThickness: "0.8px",
                   textUnderlineOffset: "3px",
                 }}
-                // textDecoration={"underline"}
                 _firstLetter={{ textTransform: "capitalize;" }}
                 fontWeight={"bold"}
               >
