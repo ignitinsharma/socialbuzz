@@ -2,7 +2,8 @@ import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-
+import CommentIcon from "@mui/icons-material/Comment";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 const PostFeed = () => {
   const user = useSelector((store) => store.user);
   const { token } = useSelector((store) => store);
@@ -76,6 +77,19 @@ const PostFeed = () => {
               alt="Dan Abramov"
               objectFit={"cover"}
             />
+          </Box>
+          <Box
+            cursor={"pointer"}
+            mt={"1rem"}
+            border={"1px solid black"}
+            h={"2rem"}
+          >
+            <span>
+              <FavoriteBorderIcon />
+            </span>
+            <span>
+              <CommentIcon />
+            </span>
           </Box>
         </Box>
       ))}
