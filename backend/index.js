@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 const { authController } = require("./Controller/auth");
 const { verifyToken } = require("./Middleware/auth.middlware");
-
 require("dotenv").config();
 const server = express();
 const cors = require("cors");

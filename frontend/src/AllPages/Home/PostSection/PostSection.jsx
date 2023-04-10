@@ -22,34 +22,45 @@ const PostSection = () => {
   const { user, token } = useSelector((store) => store);
 
   const toast = useToast();
-  const [postData, setpostData] = useState({
-    description: "",
-    picturePath: "",
-  });
+  const [postDescription, setPostDescription] = useState("");
+  const [postImage, setpostImage] = useState("");
+  const [updatedImage, setUpdatedImage] = useState(null);
 
   const userId = user._id;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleValueChange = (event) => {
-    const { name, value } = event.target;
-    setpostData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+  const handleImagePost = () => {
+    const formData = new FormData();
+    formData.append("file", postImage);
+    formData.append("upload_preset", "socialbuzz");
+    axios
+      .post(`https://api.cloudinary.com/v1_1/socialbuzz/image/upload`, formData)
+      .then((res) => setUpdatedImage(res.data.url))
+      .catch((res) => console.log(res));
   };
-  let postObjectwithId = {
-    // wanna uncommant after some time
-    userId,
-    description: postData.description,
-    picturePath: postData.picturePath,
-  };
-
   const headers = {
     Authorization: token,
   };
   const HandleDataSubmit = () => {
+    handleImagePost();
+    /* Converting image into link using cloudnary here */
+
+    // let dataObj = {
+    //   userId,
+    //   description: postDescription,
+    //   postPicturePath: updatedImage,
+    // };
+    // console.log("dataObj:", dataObj.picturePath);
+    // console.log("updatedImage", updatedImage);
+
+    /* After converting then post request to mongoDB 
+      those things into  */
     axios
-      .post(`http://localhost:8080/posts`, postObjectwithId, { headers })
+      .post(
+        `http://localhost:8080/posts`,
+        { userId, updatedImage, postDescription },
+        { headers }
+      )
       .then((response) => {
         toast({
           title: "Post successfully..😁",
@@ -67,7 +78,6 @@ const PostSection = () => {
           isClosable: true,
         });
       });
-    // console.log("postObjectwithId:", postObjectwithId);
   };
   return (
     <Box
@@ -115,16 +125,17 @@ const PostSection = () => {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <Input
-              value={postData.description}
+              value={postDescription}
               name="description"
-              onChange={handleValueChange}
+              onChange={(e) => setPostDescription(e.target.value)}
               placeholder="Enter post description.."
             />
             <Input
               name="picturePath"
-              value={postData.picturePath}
-              onChange={handleValueChange}
+              onChange={(e) => setpostImage(e.target.files[0])}
               mt="1rem"
+              type="file"
+              accept="image"
               placeholder="Enter image URL"
             />
           </ModalBody>

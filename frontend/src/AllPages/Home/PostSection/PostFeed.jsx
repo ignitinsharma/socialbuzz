@@ -26,7 +26,7 @@ const PostFeed = () => {
   return (
     <Box mt="2rem">
       {allPosts?.map((ele) => (
-        <Box mb="10px" p="1rem" border={"1.5px solid #E1E4E8"}>
+        <Box key={ele._id} mb="10px" p="1rem" border={"1.5px solid #E1E4E8"}>
           <Flex>
             <Image
               borderRadius="full"
