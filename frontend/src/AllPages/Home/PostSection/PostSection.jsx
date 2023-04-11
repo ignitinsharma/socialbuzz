@@ -138,11 +138,11 @@ const PostSection = () => {
               placeholder="Enter post description.."
             />
             <Input
+              type="file"
+              accept="image"
               name="picturePath"
               onChange={(e) => setpostImage(e.target.files[0])}
               mt="1rem"
-              type="file"
-              accept="image"
               placeholder="Enter image URL"
             />
           </ModalBody>

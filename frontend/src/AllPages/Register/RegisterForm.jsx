@@ -8,10 +8,14 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const RegisterForm = () => {
+  const [postImage, setPostImage] = useState(null);
+  const [updatedImage, setUpdatedImage] = useState(null);
+
+  const navigate = useNavigate();
   const toast = useToast();
   const [formData, setFormData] = useState({
     firstName: "",
@@ -31,6 +35,8 @@ const RegisterForm = () => {
     }));
   };
 
+  
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
     axios
@@ -42,6 +48,7 @@ const RegisterForm = () => {
           duration: 9000,
           isClosable: true,
         });
+        navigate("/");
       })
       .catch((error) => {
         console.error(error);
@@ -104,11 +111,10 @@ const RegisterForm = () => {
         <FormControl isRequired mt={4}>
           <FormLabel>Profile Picture Url</FormLabel>
           <Input
-            type="text"
+            type="file"
+            accept="image"
             name="picturePath"
-            placeholder="Enter url"
-            value={formData.picturePath}
-            onChange={handleInputChange}
+            onChange={(e) => setPostImage(e.target.files[0])}
           />
         </FormControl>
 
