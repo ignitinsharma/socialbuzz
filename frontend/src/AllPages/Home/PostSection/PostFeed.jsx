@@ -12,9 +12,9 @@ const PostFeed = () => {
   const headers = {
     Authorization: token,
   };
+
   const fetchPost = () => {
     axios.get(`http://localhost:8080/posts`, { headers }).then((res) => {
-      console.log(res);
       setAllPosts(res.data);
     });
   };
