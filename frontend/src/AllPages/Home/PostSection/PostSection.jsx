@@ -14,7 +14,7 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
@@ -35,49 +35,56 @@ const PostSection = () => {
     formData.append("upload_preset", "socialbuzz");
     axios
       .post(`https://api.cloudinary.com/v1_1/socialbuzz/image/upload`, formData)
-      .then((res) => setUpdatedImage(res.data.url))
+      .then((res) => {
+        setUpdatedImage(res.data.url);
+        console.log(res.data.url, "res.data.url");
+      })
       .catch((res) => console.log(res));
   };
   const headers = {
     Authorization: token,
   };
+
+  useEffect(
+    () => {
+      /* If the value is present inside this updateImage then we can simple do 
+        POST request of that Image ULR and that description data...
+    */
+      if (updatedImage) {
+        axios
+          .post(
+            `http://localhost:8080/posts`,
+            /* Posting the data Object into MongoDB  */
+            { userId, updatedImage, postDescription },
+            { headers }
+          )
+          .then((response) => {
+            toast({
+              title: "Post successfully..😁",
+              status: "success",
+              duration: 9000,
+              isClosable: true,
+            });
+          })
+          .catch((error) => {
+            console.error(error);
+            toast({
+              title: "Facing some issue..😶",
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+          });
+      }
+    },
+    /* When URL change so this useEffect got re-rendor again... */
+    [updatedImage]
+  );
+
   const HandleDataSubmit = () => {
+    /* After the submit this function simply set 
+      the image into useState - updatedImage */
     handleImagePost();
-    /* Converting image into link using cloudnary here */
-
-    // let dataObj = {
-    //   userId,
-    //   description: postDescription,
-    //   postPicturePath: updatedImage,
-    // };
-    // console.log("dataObj:", dataObj.picturePath);
-    // console.log("updatedImage", updatedImage);
-
-    /* After converting then post request to mongoDB 
-      those things into  */
-    axios
-      .post(
-        `http://localhost:8080/posts`,
-        { userId, updatedImage, postDescription },
-        { headers }
-      )
-      .then((response) => {
-        toast({
-          title: "Post successfully..😁",
-          status: "success",
-          duration: 9000,
-          isClosable: true,
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-        toast({
-          title: "Facing some issue..😶",
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-      });
   };
   return (
     <Box
