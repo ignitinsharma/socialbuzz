@@ -1,25 +1,16 @@
 const { userModel } = require("../Model/users.model.js");
 const { postModel } = require("../Model/posts.model.js");
-// const cloudinary = require("cloudinary").v2;
-// // require("dotenv").config();
-
-// // /* cloudinary config for uploading images  */
-// // cloudinary.config({
-// //   cloud_name: process.env.cloud_name,
-// //   api_key: process.env.api_key,
-// //   api_secret: process.env.api_secret,
-// // });
 
 /* CREATE */
 const createPost = async (req, res) => {
   try {
     const { userId, updatedImage, postDescription } = req.body;
-    // console.log(
-    //   "all three things getting",
-    //   userId,
-    //   description,
-    //   postPicturePath
-    // );
+    console.log(
+      "all three things getting",
+      userId,
+      updatedImage,
+      postDescription
+    );
     const user = await userModel.findById(userId);
     const newPost = new postModel({
       /* This user id we are getting which user is posting  */
@@ -36,8 +27,7 @@ const createPost = async (req, res) => {
       comments: [],
     });
     await newPost.save();
-    console.log("newPost:", newPost);
-
+    
     /* if user did post successful then i'm just returing
     all the post on the feed */
     const allUpdatedPost = await postModel.find();
