@@ -58,7 +58,6 @@ const Login = () => {
           isClosable: true,
         });
       });
-    console.log(loginFormData);
   };
 
   return (

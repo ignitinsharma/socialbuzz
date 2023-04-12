@@ -27,7 +27,7 @@ const createPost = async (req, res) => {
       comments: [],
     });
     await newPost.save();
-    
+
     /* if user did post successful then i'm just returing
     all the post on the feed */
     const allUpdatedPost = await postModel.find();

@@ -30,6 +30,14 @@ const PostSection = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleImagePost = () => {
+    /* 
+    By creating a new instance of FormData, you can then append key-value pairs 
+    to it using the append() method, which allows you to add form data to the object.
+
+    examples:- 
+    formData.append('username', 'John');
+    formData.append('password', 'password123');
+    */
     const formData = new FormData();
     formData.append("file", postImage);
     formData.append("upload_preset", "socialbuzz");
@@ -37,7 +45,7 @@ const PostSection = () => {
       .post(`https://api.cloudinary.com/v1_1/socialbuzz/image/upload`, formData)
       .then((res) => {
         setUpdatedImage(res.data.url);
-        console.log(res.data.url, "res.data.url");
+        // console.log(res.data.url, "res.data.url");
       })
       .catch((res) => console.log(res));
   };

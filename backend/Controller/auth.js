@@ -12,12 +12,11 @@ authController.post("/register", async (req, res) => {
     lastName,
     email,
     password,
-    picturePath,
+    updatedImage,
     friends,
     location,
     occupation,
   } = req.body;
-
   try {
     const saltRounds = 5;
     const hassing_password = await bcrypt.genSalt(saltRounds);
@@ -28,7 +27,7 @@ authController.post("/register", async (req, res) => {
       lastName,
       email,
       password: passwordHash,
-      picturePath,
+      picturePath: updatedImage,
       friends,
       location,
       occupation,

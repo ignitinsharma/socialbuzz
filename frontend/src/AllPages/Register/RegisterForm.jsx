@@ -10,22 +10,22 @@ import {
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useEffect } from "react";
 
 const RegisterForm = () => {
   const [postImage, setPostImage] = useState(null);
   const [updatedImage, setUpdatedImage] = useState(null);
-
-  const navigate = useNavigate();
-  const toast = useToast();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    picturePath: "",
     location: "",
     occupation: "",
   });
+
+  const navigate = useNavigate();
+  const toast = useToast();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -35,10 +35,30 @@ const RegisterForm = () => {
     }));
   };
 
-  
+  /* For converting image into link using cloudinary */
+  const handleImagePost = () => {
+    /* 
+    By creating a new instance of FormData, you can then append key-value pairs 
+    to it using the append() method, which allows you to add form data to the object.
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
+    examples:- 
+    formData.append('username', 'John');
+    formData.append('password', 'password123');
+    */
+    const formData = new FormData();
+    formData.append("file", postImage);
+    formData.append("upload_preset", "socialbuzz");
+    axios
+      .post(`https://api.cloudinary.com/v1_1/socialbuzz/image/upload`, formData)
+      .then((res) => {
+        setUpdatedImage(res.data.url);
+        // console.log(res.data.url, "res.data.url");
+      })
+      .catch((res) => console.log(res));
+  };
+
+  const handleRegister = () => {
+    formData.updatedImage = updatedImage;
     axios
       .post("http://localhost:8080/auth/register", formData)
       .then((response) => {
@@ -59,6 +79,16 @@ const RegisterForm = () => {
           isClosable: true,
         });
       });
+  };
+  useEffect(() => {
+    if (updatedImage) {
+      handleRegister();
+    }
+  }, [updatedImage]);
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    handleImagePost();
   };
   return (
     <div>
