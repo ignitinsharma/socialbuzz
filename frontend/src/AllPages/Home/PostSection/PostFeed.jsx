@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CommentIcon from "@mui/icons-material/Comment";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 const PostFeed = () => {
   const user = useSelector((store) => store.user);
@@ -85,6 +86,7 @@ const PostFeed = () => {
             h={"2rem"}
           >
             <span>
+              <FavoriteIcon style={{ color: "red" }} />
               <FavoriteBorderIcon />
             </span>
             <span>

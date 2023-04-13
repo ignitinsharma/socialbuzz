@@ -8,6 +8,9 @@ import { useNavigate } from "react-router-dom";
 
 const UserSection = () => {
   const user = useSelector((store) => store.user);
+  // const posts = useSelector((store) => store.posts);
+  // console.log('posts:', posts)
+  console.log("user:", user._id);
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
 
@@ -28,6 +31,11 @@ const UserSection = () => {
               cursor={"pointer"}
               onClick={() => navigate(`/profile/${user._id}`)}
               fontWeight={"bold"}
+              _hover={{
+                textDecoration: "underline",
+                textDecorationThickness: "0.8px",
+                textUnderlineOffset: "3px",
+              }}
             >
               {`${user.firstName} ${user.lastName}`}
             </Text>

@@ -49,9 +49,10 @@ const getAllFeedPosts = async (req, res) => {
 
 /* Getting users speific posts */
 const getUserPosts = async (req, res) => {
+  const { userId } = req.body;
   try {
-    const { userId } = req.params;
     const post = await postModel.find({ userId });
+    // const post = await postModel.find();
     res.status(200).send(post);
   } catch (err) {
     res.status(404).send({ message: err.message });

@@ -112,7 +112,7 @@ export default function Navbar() {
                   >{`${user.firstName} ${user.lastName}`}</Text>
                 </MenuButton>
                 <MenuList>
-                  <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
+                  <MenuItem onClick={handleLogoutClick}>Logout 😶</MenuItem>
                 </MenuList>
               </Menu>
             </Box>

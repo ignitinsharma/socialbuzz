@@ -5,7 +5,7 @@ import PostFeed from "./PostFeed";
 
 const PostContainer = () => {
   return (
-    <Box w={"50%"}>
+    <Box w={{ lg: "50%", md: "100%", sm: "100%" }}>
       <PostSection />
       <PostFeed />
     </Box>

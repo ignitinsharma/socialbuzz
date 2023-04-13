@@ -4,6 +4,7 @@ import {
   SET_LOGOUT,
   SET_POST,
   SET_POSTS,
+  SET_SINGLE_USER_POSTS,
 } from "./actionTypes";
 
 export const setLogin = (user, token) => (dispatch) => {
@@ -21,6 +22,10 @@ export const setFriends = (friends) => (dispatch) => {
 export const setPosts = (posts) => (dispatch) => {
   dispatch({ type: SET_POSTS, payload: { posts } });
 };
+
+// export const setSingleUserPosts = (posts) => (dispatch) => {
+//   dispatch({ type: SET_SINGLE_USER_POSTS, payload: { posts } });
+// };
 
 export const setPost = (post) => (dispatch) => {
   dispatch({ type: SET_POST, payload: { post } });
