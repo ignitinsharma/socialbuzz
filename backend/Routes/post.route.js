@@ -10,10 +10,12 @@ const postsRoute = express.Router();
 
 /* READ */
 postsRoute.get("/", verifyToken, getAllFeedPosts);
-// postsRoute.get("/:userId/posts", verifyToken, getUserPosts);
 
 /* Get single user POST*/
-postsRoute.get("/singleuser", verifyToken, getUserPosts);
+postsRoute.get("profile", getUserPosts);
+// postsRoute.get("profile", getUserPosts);
+
+// postsRoute.get("/singleuser", verifyToken, getUserPosts);
 
 // /* UPDATE */
 postsRoute.patch("/:id/like", verifyToken, likePost);

@@ -5,12 +5,6 @@ const { postModel } = require("../Model/posts.model.js");
 const createPost = async (req, res) => {
   try {
     const { userId, updatedImage, postDescription } = req.body;
-    console.log(
-      "all three things getting",
-      userId,
-      updatedImage,
-      postDescription
-    );
     const user = await userModel.findById(userId);
     const newPost = new postModel({
       /* This user id we are getting which user is posting  */
@@ -49,7 +43,8 @@ const getAllFeedPosts = async (req, res) => {
 
 /* Getting users speific posts */
 const getUserPosts = async (req, res) => {
-  const { userId } = req.body;
+  const { userId } = req.bpdy;
+  console.log("userId:", userId);
   try {
     const post = await postModel.find({ userId });
     // const post = await postModel.find();

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "../../AllPages/Login/Login";
 import Home from "../../AllPages/Home/Home";
 import ProfilePage from "../../AllPages/ProfilePage/ProfilePage";
@@ -16,7 +16,7 @@ const AllRoutes = () => {
           path="/home"
           element={isAuth ? <Home /> : <Navigate to={"/"} />}
         />
-        <Route path="/profile/:id" element={<ProfilePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/register" element={<Register />} />
       </Routes>
     </div>
