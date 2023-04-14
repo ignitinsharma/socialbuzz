@@ -43,8 +43,8 @@ const getAllFeedPosts = async (req, res) => {
 
 /* Getting users speific posts */
 const getUserPosts = async (req, res) => {
-  const { userId } = req.bpdy;
-  console.log("userId:", userId);
+  const userId = req.params.userId;
+  // console.log("userId:", userId);
   try {
     const post = await postModel.find({ userId });
     // const post = await postModel.find();

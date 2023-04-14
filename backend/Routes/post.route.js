@@ -12,7 +12,7 @@ const postsRoute = express.Router();
 postsRoute.get("/", verifyToken, getAllFeedPosts);
 
 /* Get single user POST*/
-postsRoute.get("profile", getUserPosts);
+postsRoute.get("/profile/:userId", verifyToken, getUserPosts);
 // postsRoute.get("profile", getUserPosts);
 
 // postsRoute.get("/singleuser", verifyToken, getUserPosts);

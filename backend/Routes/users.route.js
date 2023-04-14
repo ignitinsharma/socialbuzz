@@ -11,6 +11,7 @@ const userRoute = express.Router();
 
 /* READ */
 userRoute.get("/:id", verifyToken, getUser);
+// userRoute.get("/:id", getUser);
 userRoute.get("/:id/friends", verifyToken, getUserFriends);
 
 /* UPDATE */
