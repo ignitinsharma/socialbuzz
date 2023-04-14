@@ -58,13 +58,20 @@ const ProfilePage = () => {
       <Box>
         <Navbar />
       </Box>
-      <Flex justifyContent={"space-between"} w={"80%"} m={"auto"}>
+      <Flex
+        display={{ lg: "flex", md: "block", sm: "block" }}
+        justifyContent={"space-between"}
+        w={"80%"}
+        m={"auto"}
+      >
         <Box
-          pt="1rem"
+          py="2rem"
+          px={"1rem"}
           mt={"2rem"}
           borderRadius={"10px"}
-          w={"65%"}
-          h={"40rem"}
+          w={{ lg: "65%", md: "100%", sm: "100%" }}
+          // h={"40rem"}
+          h="fit-content"
           _hover={{
             boxShadow:
               "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;",
@@ -129,8 +136,8 @@ const ProfilePage = () => {
         <Box
           mt={"2rem"}
           borderRadius={"10px"}
-          w={"30%"}
-          h={"40rem"}
+          w={{ lg: "30%", md: "100%", sm: "100%" }}
+          h={"30rem"}
           _hover={{
             boxShadow:
               "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;",
@@ -138,13 +145,25 @@ const ProfilePage = () => {
           }}
           border={"1.5px solid #E1E4E8"}
         >
-          {/* hello2 */}
+          {/*  */}
         </Box>
       </Flex>
-      <Box m="auto" w="80%" border={"1px solid black"} h="40rem">
-        <Grid templateColumns="repeat(2, 1fr)" gap={6}>
+      <Box pt="2rem" m="auto" w="80%" h="40rem">
+        <Grid
+          templateColumns={{
+            lg: "repeat(2, 1fr)",
+            md: "repeat(1, 1fr)",
+            sm: "repeat(1, 1fr)",
+          }}
+          gap={6}
+        >
           {singlePosts?.map((ele) => (
             <Box
+              borderRadius={"8px"}
+              _hover={{
+                boxShadow:
+                  "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;",
+              }}
               key={ele._id}
               mb="10px"
               p="1rem"
@@ -168,7 +187,6 @@ const ProfilePage = () => {
                     }}
                     _firstLetter={{ textTransform: "capitalize;" }}
                     fontWeight={"bold"}
-                    onClick={() => navigate(`/profile/${ele.userId}`)}
                   >
                     {`${ele.firstName} ${ele.lastName}`}
                   </Text>
