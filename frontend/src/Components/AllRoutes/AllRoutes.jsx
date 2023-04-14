@@ -16,7 +16,7 @@ const AllRoutes = () => {
           path="/home"
           element={isAuth ? <Home /> : <Navigate to={"/"} />}
         />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile/:userId" element={<ProfilePage />} />
         <Route path="/register" element={<Register />} />
       </Routes>
     </div>

@@ -5,7 +5,9 @@ import { useSelector } from "react-redux";
 import CommentIcon from "@mui/icons-material/Comment";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { useNavigate } from "react-router-dom";
 const PostFeed = () => {
+  const navigate = useNavigate();
   const user = useSelector((store) => store.user);
   const { token } = useSelector((store) => store);
   const [allPosts, setAllPosts] = useState([]);
@@ -19,6 +21,7 @@ const PostFeed = () => {
       setAllPosts(res.data);
     });
   };
+  console.log("allPosts: feed", allPosts);
 
   useEffect(() => {
     fetchPost();
@@ -46,6 +49,7 @@ const PostFeed = () => {
                 }}
                 _firstLetter={{ textTransform: "capitalize;" }}
                 fontWeight={"bold"}
+                onClick={() => navigate(`/profile/${ele.userId}`)}
               >
                 {`${ele.firstName} ${ele.lastName}`}
               </Text>

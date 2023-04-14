@@ -27,7 +27,7 @@ const UserSection = () => {
             <Text
               _firstLetter={{ textTransform: "capitalize;" }}
               cursor={"pointer"}
-              onClick={() => navigate(`/profile`)}
+              onClick={() => navigate(`/profile/${user._id}`)}
               fontWeight={"bold"}
               _hover={{
                 textDecoration: "underline",
