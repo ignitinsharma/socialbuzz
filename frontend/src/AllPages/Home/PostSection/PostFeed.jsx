@@ -1,35 +1,92 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CommentIcon from "@mui/icons-material/Comment";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useNavigate } from "react-router-dom";
+import { setPosts } from "../../../Redux/action";
 const PostFeed = () => {
-  const navigate = useNavigate();
-  const user = useSelector((store) => store.user);
-  const { token } = useSelector((store) => store);
   const [allPosts, setAllPosts] = useState([]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { token, user, posts } = useSelector((store) => store);
+  // console.log("all posts", posts);
+  const userId = user._id;
+  // console.log("userId:", userId);
 
   const headers = {
     Authorization: token,
   };
 
-  const fetchPost = () => {
+  const fetchingAllPosts = () => {
     axios.get(`http://localhost:8080/posts`, { headers }).then((res) => {
-      setAllPosts(res.data);
+      dispatch(setPosts(res.data));
+      // setAllPosts(res.data);
+      console.log("res.data", res.data);
     });
   };
-  console.log("allPosts: feed", allPosts);
+
+  /* Like Post */
+  const likePost = (postId) => {
+    axios
+      .put(`http://localhost:8080/posts/like`, { userId, postId }, { headers })
+      .then((res) => {
+        const newData = posts.map((posts) => {
+          if (posts._id == res._id) {
+            return res;
+          } else {
+            return posts;
+          }
+        });
+        dispatch(setPosts(newData));
+
+        // setAllPosts(newData);
+        console.log("like res:", res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  /* disLike Post */
+  const disLikePost = (postId) => {
+    axios
+      .put(
+        `http://localhost:8080/posts/dislike`,
+        { userId, postId },
+        { headers }
+      )
+      .then((res) => {
+        const newData = posts.map((posts) => {
+          if (posts._id == res._id) {
+            return res;
+          } else {
+            return posts;
+          }
+        });
+        // setAllPosts(newData);
+        dispatch(setPosts(newData));
+        console.log("dislike res:", res);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   useEffect(() => {
-    fetchPost();
+    fetchingAllPosts();
   }, []);
+
+  // useEffect(() => {}, [posts]);
+  console.log('posts:', posts)
+
+  // console.log(allPosts, "allPosts");
 
   return (
     <Box mt="2rem">
-      {allPosts?.map((ele) => (
+      {posts?.map((ele) => (
         <Box key={ele._id} mb="10px" p="1rem" border={"1.5px solid #E1E4E8"}>
           <Flex>
             <Image
@@ -83,19 +140,30 @@ const PostFeed = () => {
               objectFit={"cover"}
             />
           </Box>
+          {/* Like Dislike button  */}
           <Box
             cursor={"pointer"}
             mt={"1rem"}
-            border={"1px solid black"}
-            h={"2rem"}
+            // border={"1px solid black"}
+            h={"auto"}
           >
             <span>
-              <FavoriteIcon style={{ color: "red" }} />
-              <FavoriteBorderIcon />
+              {ele.likes.includes(userId) ? (
+                <FavoriteIcon
+                  onClick={() => disLikePost(ele._id)}
+                  style={{ color: "red" }}
+                />
+              ) : (
+                <FavoriteBorderIcon onClick={() => likePost(ele._id)} />
+              )}
             </span>
+
             <span>
               <CommentIcon />
             </span>
+            <Box>
+              <span>{ele.likes.length} Likes</span>
+            </Box>
           </Box>
         </Box>
       ))}

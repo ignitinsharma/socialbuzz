@@ -19,6 +19,8 @@ server.use(
 
 /* Auth controllers */
 server.use("/auth", authController);
+
+/* Post Data into Server */
 server.post("/posts", verifyToken, createPost);
 
 /* Routes */

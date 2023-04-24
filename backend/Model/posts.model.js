@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Schema.Types;
 
 const postSchema = new mongoose.Schema(
   {
@@ -18,7 +19,12 @@ const postSchema = new mongoose.Schema(
     description: String,
     postPicturePath: String,
     userPicturePath: String,
-    likes: [],
+    likes: [
+      {
+        type: ObjectId,
+        ref: "user",
+      },
+    ],
     comments: {
       type: Array,
       default: [],

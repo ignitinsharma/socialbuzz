@@ -4,6 +4,8 @@ const {
   getAllFeedPosts,
   getUserPosts,
   likePost,
+  DislikePost,
+  // DislikePost,
 } = require("../Controller/posts");
 const { postModel } = require("../Model/posts.model.js");
 const postsRoute = express.Router();
@@ -13,12 +15,13 @@ postsRoute.get("/", verifyToken, getAllFeedPosts);
 
 /* Get single user POST*/
 postsRoute.get("/profile/:userId", verifyToken, getUserPosts);
-// postsRoute.get("profile", getUserPosts);
 
-// postsRoute.get("/singleuser", verifyToken, getUserPosts);
+/* LIKE  AND DISLIKE POST */
+postsRoute.put("/like", verifyToken, likePost);
 
-// /* UPDATE */
-postsRoute.patch("/:id/like", verifyToken, likePost);
+/*DISLIKE POST */
+postsRoute.put("/dislike", verifyToken, DislikePost);
+
 module.exports = {
   postsRoute,
 };

@@ -17,7 +17,7 @@ const createPost = async (req, res) => {
       lastName: user.lastName,
       location: user.location,
       userPicturePath: user.picturePath,
-      likes: {},
+      likes: [],
       comments: [],
     });
     await newPost.save();
@@ -54,28 +54,52 @@ const getUserPosts = async (req, res) => {
   }
 };
 
+/* Like Post function */
 const likePost = async (req, res) => {
+  const { userId, postId } = req.body;
   try {
-    const { id } = req.params;
-    const { userId } = req.body;
-    const post = await postModel.findById(id);
-    const isLiked = post.likes.get(userId);
+    postModel
+      .findByIdAndUpdate(
+        postId,
+        /* User id got added into likes array  */
+        { $push: { likes: userId } },
+        {
+          new: true,
+        }
+      )
+      .then((updatedPost) => {
+        res.json(updatedPost);
+      })
+      .catch((err) => {
+        res.status(422).json({ error: err });
+      });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
 
-    if (isLiked) {
-      post.likes.delete(userId);
-    } else {
-      post.likes.set(userId, true);
-    }
-
-    const updatedPost = await postModel.findByIdAndUpdate(
-      id,
-      { likes: post.likes },
-      { new: true }
-    );
-
-    res.status(200).json(updatedPost);
-  } catch (err) {
-    res.status(404).json({ message: err.message });
+const DislikePost = async (req, res) => {
+  const { userId, postId } = req.body;
+  try {
+    postModel
+      .findByIdAndUpdate(
+        postId,
+        /* It means user id removed from likes array */
+        { $pull: { likes: userId } },
+        {
+          new: true,
+        }
+      )
+      .then((updatedPost) => {
+        res.json(updatedPost);
+      })
+      .catch((err) => {
+        res.status(422).json({ error: err });
+      });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
   }
 };
 
@@ -84,4 +108,5 @@ module.exports = {
   getAllFeedPosts,
   getUserPosts,
   likePost,
+  DislikePost,
 };

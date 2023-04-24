@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const UserSection = () => {
   const user = useSelector((store) => store.user);
-  console.log("user:", user._id);
+  // console.log("user:", user._id);
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
 
