@@ -6,27 +6,31 @@ import CommentIcon from "@mui/icons-material/Comment";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useNavigate } from "react-router-dom";
-import { setPosts } from "../../../Redux/action";
+import { setFetchAllPosts, setPosts } from "../../../Redux/action";
 const PostFeed = () => {
-  const [allPosts, setAllPosts] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token, user, posts } = useSelector((store) => store);
   // console.log("all posts", posts);
   const userId = user._id;
   // console.log("userId:", userId);
+  const [toggle, setToggle] = useState(false);
+
+  const handleToggle = () => {
+    setToggle(!toggle);
+  };
 
   const headers = {
     Authorization: token,
   };
 
-  const fetchingAllPosts = () => {
-    axios.get(`http://localhost:8080/posts`, { headers }).then((res) => {
-      dispatch(setPosts(res.data));
-      // setAllPosts(res.data);
-      console.log("res.data", res.data);
-    });
-  };
+  // const fetchingAllPosts = () => {
+  //   axios.get(`http://localhost:8080/posts`, { headers }).then((res) => {
+  //     dispatch(setPosts(res.data));
+  //     // setAllPosts(res.data);
+  //     console.log("res.data", res.data);
+  //   });
+  // };
 
   /* Like Post */
   const likePost = (postId) => {
@@ -41,9 +45,8 @@ const PostFeed = () => {
           }
         });
         dispatch(setPosts(newData));
-
-        // setAllPosts(newData);
         console.log("like res:", res.data);
+        handleToggle();
       })
       .catch((error) => {
         console.error(error);
@@ -66,9 +69,9 @@ const PostFeed = () => {
             return posts;
           }
         });
-        // setAllPosts(newData);
         dispatch(setPosts(newData));
         console.log("dislike res:", res);
+        handleToggle();
       })
       .catch((error) => {
         console.error(error);
@@ -76,97 +79,95 @@ const PostFeed = () => {
   };
 
   useEffect(() => {
-    fetchingAllPosts();
-  }, []);
+    dispatch(setFetchAllPosts(headers));
+  }, [toggle]);
 
-  // useEffect(() => {}, [posts]);
-  console.log('posts:', posts)
-
-  // console.log(allPosts, "allPosts");
+  console.log("posts:", posts);
 
   return (
     <Box mt="2rem">
-      {posts?.map((ele) => (
-        <Box key={ele._id} mb="10px" p="1rem" border={"1.5px solid #E1E4E8"}>
-          <Flex>
-            <Image
-              borderRadius="full"
-              boxSize="40px"
-              src={ele.userPicturePath}
-              alt="Dan Abramov"
-              objectFit={"cover"}
-            />
-            <Box ml={"10px"}>
+      {posts &&
+        posts.map((ele) => (
+          <Box key={ele._id} mb="10px" p="1rem" border={"1.5px solid #E1E4E8"}>
+            <Flex>
+              <Image
+                borderRadius="full"
+                boxSize="40px"
+                src={ele.userPicturePath}
+                alt="Dan Abramov"
+                objectFit={"cover"}
+              />
+              <Box ml={"10px"}>
+                <Text
+                  cursor={"pointer"}
+                  _hover={{
+                    textDecoration: "underline",
+                    textDecorationThickness: "0.8px",
+                    textUnderlineOffset: "3px",
+                  }}
+                  _firstLetter={{ textTransform: "capitalize;" }}
+                  fontWeight={"bold"}
+                  onClick={() => navigate(`/profile/${ele.userId}`)}
+                >
+                  {`${ele.firstName} ${ele.lastName}`}
+                </Text>
+                <Text
+                  color={"var(--main-color)"}
+                  fontSize={"12px"}
+                  _hover={{ fontSize: "bold" }}
+                >
+                  #socialbuzz
+                </Text>
+              </Box>
+            </Flex>
+            <Box w="80%" m="auto">
               <Text
-                cursor={"pointer"}
-                _hover={{
-                  textDecoration: "underline",
-                  textDecorationThickness: "0.8px",
-                  textUnderlineOffset: "3px",
-                }}
                 _firstLetter={{ textTransform: "capitalize;" }}
-                fontWeight={"bold"}
-                onClick={() => navigate(`/profile/${ele.userId}`)}
+                fontSize={"15px"}
               >
-                {`${ele.firstName} ${ele.lastName}`}
+                {ele.description}
               </Text>
-              <Text
-                color={"var(--main-color)"}
-                fontSize={"12px"}
-                _hover={{ fontSize: "bold" }}
-              >
-                #socialbuzz
-              </Text>
+              <Image
+                mt="1rem"
+                w={"100%"}
+                h="250px"
+                borderRadius="7px"
+                _hover={{
+                  boxShadow:
+                    "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;",
+                }}
+                src={ele.postPicturePath}
+                alt={ele.firstName}
+                objectFit={"cover"}
+              />
             </Box>
-          </Flex>
-          <Box w="80%" m="auto">
-            <Text
-              _firstLetter={{ textTransform: "capitalize;" }}
-              fontSize={"15px"}
+            {/* Like Dislike button  */}
+            <Box
+              cursor={"pointer"}
+              mt={"1rem"}
+              // border={"1px solid black"}
+              h={"auto"}
             >
-              {ele.description}
-            </Text>
-            <Image
-              mt="1rem"
-              w={"100%"}
-              h="250px"
-              borderRadius="7px"
-              _hover={{
-                boxShadow:
-                  "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;",
-              }}
-              src={ele.postPicturePath}
-              alt={ele.firstName}
-              objectFit={"cover"}
-            />
-          </Box>
-          {/* Like Dislike button  */}
-          <Box
-            cursor={"pointer"}
-            mt={"1rem"}
-            // border={"1px solid black"}
-            h={"auto"}
-          >
-            <span>
-              {ele.likes.includes(userId) ? (
-                <FavoriteIcon
-                  onClick={() => disLikePost(ele._id)}
-                  style={{ color: "red" }}
-                />
-              ) : (
-                <FavoriteBorderIcon onClick={() => likePost(ele._id)} />
-              )}
-            </span>
+              <span>
+                {ele.likes.includes(userId) ? (
+                  <FavoriteIcon
+                    onClick={() => disLikePost(ele._id)}
+                    style={{ color: "red" }}
+                  />
+                ) : (
+                  <FavoriteBorderIcon onClick={() => likePost(ele._id)} />
+                )}
+              </span>
 
-            <span>
-              <CommentIcon />
-            </span>
-            <Box>
-              <span>{ele.likes.length} Likes</span>
+              <span>
+                <CommentIcon />
+              </span>
+              <Box>
+                <span>{ele.likes.length} Likes</span>
+              </Box>
             </Box>
           </Box>
-        </Box>
-      ))}
+        ))}
     </Box>
   );
 };

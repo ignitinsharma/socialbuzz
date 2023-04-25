@@ -1,8 +1,8 @@
 import {
+  GET_POSTS,
   SET_FRIENDS,
   SET_LOGIN,
   SET_LOGOUT,
-  SET_MODE,
   SET_POST,
   SET_POSTS,
 } from "./actionTypes";
@@ -37,13 +37,20 @@ export const mainReducer = (state = initialState, { type, payload }) => {
     case SET_POSTS: {
       return { ...state, posts: payload.posts };
     }
-    case SET_POST: {
-      const updatedPosts = state.posts.map((post) => {
-        if (post._id === payload.post._id) return payload.post;
-        return post;
-      });
-      return { ...state, posts: updatedPosts };
+
+    case GET_POSTS: {
+      return {
+        ...state,
+        posts: payload,
+      };
     }
+    // case SET_POST: {
+    //   const updatedPosts = state.posts.map((post) => {
+    //     if (post._id === payload.post._id) return payload.post;
+    //     return post;
+    //   });
+    //   return { ...state, posts: updatedPosts };
+    // }
     default: {
       return state;
     }
