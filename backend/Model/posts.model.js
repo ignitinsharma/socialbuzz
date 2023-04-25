@@ -25,10 +25,13 @@ const postSchema = new mongoose.Schema(
         ref: "user",
       },
     ],
-    comments: {
-      type: Array,
-      default: [],
-    },
+    comments: [
+      {
+        userComment: { type: String },
+        user: { type: Object },
+        postedBy: { type: ObjectId, ref: "user" },
+      },
+    ],
   },
   { timestamps: true },
   { versionKey: false }

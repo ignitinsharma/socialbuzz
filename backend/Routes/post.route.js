@@ -5,7 +5,7 @@ const {
   getUserPosts,
   likePost,
   DislikePost,
-  // DislikePost,
+  CommentPost,
 } = require("../Controller/posts");
 const { postModel } = require("../Model/posts.model.js");
 const postsRoute = express.Router();
@@ -21,6 +21,9 @@ postsRoute.put("/like", verifyToken, likePost);
 
 /*DISLIKE POST */
 postsRoute.put("/dislike", verifyToken, DislikePost);
+
+/*Comment POST */
+postsRoute.put("/comment", verifyToken, CommentPost);
 
 module.exports = {
   postsRoute,

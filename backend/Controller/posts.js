@@ -103,10 +103,43 @@ const DislikePost = async (req, res) => {
   }
 };
 
+const CommentPost = async (req, res) => {
+  const { userId, postId, userComment, user } = req.body;
+  console.log("user:", user);
+  console.log("userComment:", userComment);
+  console.log("postId:", postId);
+  console.log("userId:", userId);
+  const CommentsObject = {
+    userComment: userComment,
+    user: user,
+    postedBy: userId,
+  };
+  try {
+    postModel
+      .findByIdAndUpdate(
+        postId,
+        { $push: { comments: CommentsObject } },
+        {
+          new: true,
+        }
+      )
+      .then((updatedPost) => {
+        res.json(updatedPost);
+      })
+      .catch((err) => {
+        res.status(422).json({ error: err });
+      });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 module.exports = {
   createPost,
   getAllFeedPosts,
   getUserPosts,
   likePost,
   DislikePost,
+  CommentPost,
 };
