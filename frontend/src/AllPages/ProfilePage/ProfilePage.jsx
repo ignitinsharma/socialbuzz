@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Grid, Image, Stack, Text } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import profile from "../../assets/profile.svg";
 import Navbar from "../Navbar/Navbar";
@@ -11,10 +11,18 @@ import CommentIcon from "@mui/icons-material/Comment";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useNavigate } from "react-router-dom";
+import { setPosts } from "../../Redux/action";
 
 const ProfilePage = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { token } = useSelector((store) => store);
+  const { token, posts } = useSelector((store) => store);
+  const [toggle, setToggle] = useState(false);
+
+  /* This for re-rendor the app  */
+  const handleToggle = () => {
+    setToggle(!toggle);
+  };
   // console.log("user:", user);
 
   const headers = {
@@ -46,12 +54,56 @@ const ProfilePage = () => {
       });
   };
 
+  const likePost = (postId) => {
+    axios
+      .put(`http://localhost:8080/posts/like`, { userId, postId }, { headers })
+      .then((res) => {
+        const newData = posts.map((posts) => {
+          if (posts._id == res._id) {
+            return res;
+          } else {
+            return posts;
+          }
+        });
+        dispatch(setPosts(newData));
+        console.log("like res:", res.data);
+        handleToggle();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  /* disLike Post */
+  const disLikePost = (postId) => {
+    axios
+      .put(
+        `http://localhost:8080/posts/dislike`,
+        { userId, postId },
+        { headers }
+      )
+      .then((res) => {
+        const newData = posts.map((posts) => {
+          if (posts._id == res._id) {
+            return res;
+          } else {
+            return posts;
+          }
+        });
+        dispatch(setPosts(newData));
+        console.log("dislike res:", res);
+        handleToggle();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   useEffect(() => {
     handleFetchSinglePosts();
     handleFetchUser();
-  }, []);
-  console.log(singlePosts, "singlePosts");
-  console.log(singleUser, "singleUser");
+  }, [toggle]);
+  console.log("post", posts);
 
   return (
     <Box>
@@ -220,19 +272,23 @@ const ProfilePage = () => {
                   objectFit={"cover"}
                 />
               </Box>
-              <Box
-                cursor={"pointer"}
-                mt={"1rem"}
-                border={"1px solid black"}
-                h={"2rem"}
-              >
+              <Box cursor={"pointer"} mt={"1rem"} h={"auto"}>
                 <span>
-                  <FavoriteIcon style={{ color: "red" }} />
-                  <FavoriteBorderIcon />
+                  {ele.likes.includes(userId) ? (
+                    <FavoriteIcon
+                      onClick={() => disLikePost(ele._id)}
+                      style={{ color: "red" }}
+                    />
+                  ) : (
+                    <FavoriteBorderIcon onClick={() => likePost(ele._id)} />
+                  )}
                 </span>
                 <span>
                   <CommentIcon />
                 </span>
+                <Box>
+                  <span>{ele.likes.length} Likes</span>
+                </Box>
               </Box>
             </Box>
           ))}

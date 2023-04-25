@@ -11,11 +11,10 @@ const PostFeed = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token, user, posts } = useSelector((store) => store);
-  // console.log("all posts", posts);
   const userId = user._id;
-  // console.log("userId:", userId);
   const [toggle, setToggle] = useState(false);
 
+  /* This for re-rendor the app  */
   const handleToggle = () => {
     setToggle(!toggle);
   };
@@ -23,14 +22,6 @@ const PostFeed = () => {
   const headers = {
     Authorization: token,
   };
-
-  // const fetchingAllPosts = () => {
-  //   axios.get(`http://localhost:8080/posts`, { headers }).then((res) => {
-  //     dispatch(setPosts(res.data));
-  //     // setAllPosts(res.data);
-  //     console.log("res.data", res.data);
-  //   });
-  // };
 
   /* Like Post */
   const likePost = (postId) => {
