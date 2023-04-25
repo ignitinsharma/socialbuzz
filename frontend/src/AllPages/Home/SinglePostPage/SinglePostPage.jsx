@@ -28,12 +28,13 @@ const SinglePostPage = () => {
       <Box>
         <Navbar />
       </Box>
-      <Flex m="auto" w="90%" border={"1px solid black"}>
+      <Flex m="auto" w="90%">
         <UserSection />
         {posts &&
           posts.map((ele) =>
             ele._id === postId ? (
               <Box
+                w="60%"
                 ml={"3rem"}
                 key={ele._id}
                 mb="10px"
