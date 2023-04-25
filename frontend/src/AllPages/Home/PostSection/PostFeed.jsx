@@ -1,22 +1,34 @@
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Image,
+  Input,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CommentIcon from "@mui/icons-material/Comment";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setFetchAllPosts, setPosts } from "../../../Redux/action";
 const PostFeed = () => {
+  const toast = useToast();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token, user, posts } = useSelector((store) => store);
   const userId = user._id;
-  const [toggle, setToggle] = useState(false);
+  const [toggleUseEffect, setToggleUseEffect] = useState(false);
+  const [toggleComment, setToggleComment] = useState(false);
+  const [commentInput, setCommentInput] = useState("");
+  // const [userComment, setUserComment] = useState("");
 
   /* This for re-rendor the app  */
   const handleToggle = () => {
-    setToggle(!toggle);
+    setToggleUseEffect(!toggleUseEffect);
   };
 
   const headers = {
@@ -69,9 +81,37 @@ const PostFeed = () => {
       });
   };
 
+  const handleSubmitComment = (postId) => {
+    axios
+      .put(
+        `http://localhost:8080/posts/comment`,
+        {
+          userId,
+          user,
+          postId,
+          userComment: commentInput,
+        },
+        { headers }
+      )
+      .then((res) => {
+        toast({
+          title: "Comment Added.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+        handleToggle();
+        setToggleComment(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        handleToggle();
+      });
+  };
+
   useEffect(() => {
     dispatch(setFetchAllPosts(headers));
-  }, [toggle]);
+  }, [toggleUseEffect]);
 
   console.log("posts:", posts);
 
@@ -118,27 +158,24 @@ const PostFeed = () => {
               >
                 {ele.description}
               </Text>
-              <Image
-                mt="1rem"
-                w={"100%"}
-                h="250px"
-                borderRadius="7px"
-                _hover={{
-                  boxShadow:
-                    "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;",
-                }}
-                src={ele.postPicturePath}
-                alt={ele.firstName}
-                objectFit={"cover"}
-              />
+              <Link to={`/post/${ele._id}`}>
+                <Image
+                  mt="1rem"
+                  w={"100%"}
+                  h="250px"
+                  borderRadius="7px"
+                  _hover={{
+                    boxShadow:
+                      "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;",
+                  }}
+                  src={ele.postPicturePath}
+                  alt={ele.firstName}
+                  objectFit={"cover"}
+                />
+              </Link>
             </Box>
             {/* Like Dislike button  */}
-            <Box
-              cursor={"pointer"}
-              mt={"1rem"}
-              // border={"1px solid black"}
-              h={"auto"}
-            >
+            <Box cursor={"pointer"} mt={"1rem"} h={"auto"}>
               <span>
                 {ele.likes.includes(userId) ? (
                   <FavoriteIcon
@@ -150,11 +187,38 @@ const PostFeed = () => {
                 )}
               </span>
 
-              <span>
-                <CommentIcon />
+              <span style={{ marginLeft: "0.3rem" }}>
+                {/* This onclick is toggling the Comment box which is show or hide kind of after click */}
+                <CommentIcon onClick={() => setToggleComment(!toggleComment)} />
               </span>
               <Box>
-                <span>{ele.likes.length} Likes</span>
+                <Text fontSize={"15px"}>{ele.likes.length} Likes</Text>
+                <Link to={`/post/${ele._id}`}>
+                  <Text fontSize={"15px"}>{ele.comments.length} Comments</Text>
+                </Link>
+              </Box>
+              <Box mt={"1rem"}>
+                {toggleComment ? (
+                  <span>
+                    <Input
+                      _placeholder={{ fontsize: "13px" }}
+                      width={"75%"}
+                      placeholder="Enter your thoughts..."
+                      onChange={(e) => setCommentInput(e.target.value)}
+                    />
+                    <Button
+                      color={"white"}
+                      _hover={{ bg: "var(--black-color)" }}
+                      bg={"var(--main-color)"}
+                      fontSize={"13px"}
+                      ml={"10px"}
+                      /* Passing the postID */
+                      onClick={() => handleSubmitComment(ele._id)}
+                    >
+                      Submit
+                    </Button>
+                  </span>
+                ) : null}
               </Box>
             </Box>
           </Box>

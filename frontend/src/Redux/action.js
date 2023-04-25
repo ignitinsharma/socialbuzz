@@ -30,6 +30,7 @@ export const setFetchAllPosts = (headers) => (dispatch) => {
     dispatch({ type: GET_POSTS, payload: res.data });
   });
 };
+
 // export const setSingleUserPosts = (posts) => (dispatch) => {
 //   dispatch({ type: SET_SINGLE_USER_POSTS, payload: { posts } });
 // };
