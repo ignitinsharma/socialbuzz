@@ -125,7 +125,8 @@ const PostSection = () => {
           />
           <Input
             fontSize={"13px"}
-            style={{ width: "30rem" }}
+            size="md"
+            w={{ lg: "30rem", md: "35rem", sm: "20rem" }}
             ml="10px"
             placeholder="share content.. "
             type="text"

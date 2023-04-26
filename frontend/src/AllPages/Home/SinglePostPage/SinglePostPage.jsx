@@ -18,24 +18,28 @@ import { Link, useNavigate } from "react-router-dom";
 
 const SinglePostPage = () => {
   const { postId } = useParams();
-  const dispatch = useDispatch();
-  const { token, user, posts } = useSelector((store) => store);
+  const { user, posts } = useSelector((store) => store);
   const userId = user._id;
-  //   console.log("user:", user);
-  //   console.log("posts:", posts);
+
   return (
     <Box w={"100%"} border={"1px solid red"} m="auto">
       <Box>
         <Navbar />
       </Box>
-      <Flex m="auto" w="90%">
+      <Flex
+        display={{ lg: "flex", md: "block", sm: "block" }}
+        pt="1rem"
+        m="auto"
+        w="90%"
+      >
         <UserSection />
         {posts &&
           posts.map((ele) =>
             ele._id === postId ? (
               <Box
-                w="60%"
-                ml={"3rem"}
+                w={{ ld: "60%", md: "100%" }}
+                mt={{ md: "1rem", sm: "1.5rem" }}
+                ml={{ lg: "3rem", sm: "0", md: "0" }}
                 key={ele._id}
                 mb="10px"
                 p="1rem"

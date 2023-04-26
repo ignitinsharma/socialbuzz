@@ -24,7 +24,6 @@ const PostFeed = () => {
   const [toggleUseEffect, setToggleUseEffect] = useState(false);
   const [toggleComment, setToggleComment] = useState(false);
   const [commentInput, setCommentInput] = useState("");
-  // const [userComment, setUserComment] = useState("");
 
   /* This for re-rendor the app  */
   const handleToggle = () => {
@@ -118,7 +117,7 @@ const PostFeed = () => {
   return (
     <Box mt="2rem">
       {posts &&
-        posts.map((ele) => (
+        posts.reverse().map((ele) => (
           <Box key={ele._id} mb="10px" p="1rem" border={"1.5px solid #E1E4E8"}>
             <Flex>
               <Image
@@ -162,7 +161,7 @@ const PostFeed = () => {
                 <Image
                   mt="1rem"
                   w={"100%"}
-                  h="250px"
+                  h={{ lg: "250px", md: "250px", sm: "150px" }}
                   borderRadius="7px"
                   _hover={{
                     boxShadow:

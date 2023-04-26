@@ -2,7 +2,7 @@ import { Box, Button, Flex, Grid, Image, Stack, Text } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import profile from "../../assets/profile.svg";
 import Navbar from "../Navbar/Navbar";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -261,7 +261,7 @@ const ProfilePage = () => {
                 <Image
                   mt="1rem"
                   w={"100%"}
-                  h="250px"
+                  h={{ lg: "250px", md: "250px", sm: "150px" }}
                   borderRadius="7px"
                   _hover={{
                     boxShadow:
@@ -288,6 +288,11 @@ const ProfilePage = () => {
                 </span>
                 <Box>
                   <span>{ele.likes.length} Likes</span>
+                  <Link to={`/post/${ele._id}`}>
+                    <Text fontSize={"15px"}>
+                      {ele.comments.length} Comments
+                    </Text>
+                  </Link>
                 </Box>
               </Box>
             </Box>
