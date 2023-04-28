@@ -6,12 +6,16 @@ const {
   getUser,
   addRemoveFriend,
   getUserFriends,
+  getAllRegisteredUser,
 } = require("../Controller/user");
 const userRoute = express.Router();
 
+/* Get All Users */
+userRoute.get("/allusers", getAllRegisteredUser);
+
 /* READ */
 userRoute.get("/:id", verifyToken, getUser);
-// userRoute.get("/:id", getUser);
+
 userRoute.get("/:id/friends", verifyToken, getUserFriends);
 
 /* UPDATE */

@@ -1,5 +1,15 @@
 const { userModel } = require("../Model/users.model.js");
 
+const getAllRegisteredUser = async (req, res) => {
+  try {
+    const users = await userModel.find();
+    console.log("allusers", users);
+    res.status(200).send(users);
+  } catch (err) {
+    res.status(404).send({ message: err.message });
+  }
+};
+
 const getUser = async (req, res) => {
   try {
     /* Grabbing the id from the params */
@@ -62,6 +72,7 @@ const addRemoveFriend = async (req, res) => {
 };
 
 module.exports = {
+  getAllRegisteredUser,
   getUser,
   getUserFriends,
   addRemoveFriend,
