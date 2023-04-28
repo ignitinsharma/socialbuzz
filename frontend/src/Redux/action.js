@@ -1,6 +1,7 @@
 import {
   GET_ALL_USERS,
   GET_POSTS,
+  GET_SINGLE_USER_POST,
   SET_FRIENDS,
   SET_LOGIN,
   SET_LOGOUT,
@@ -34,6 +35,14 @@ export const setFetchAllUsers = (headers) => (dispatch) => {
   axios.get(`http://localhost:8080/user/allusers`, { headers }).then((res) => {
     dispatch({ type: GET_ALL_USERS, payload: res.data });
   });
+};
+
+export const setSingleUserPost = (headers, userId) => (dispatch) => {
+  axios
+    .get(`http://localhost:8080/posts/profile/${userId}`, { headers })
+    .then((res) => {
+      dispatch({ type: GET_SINGLE_USER_POST, payload: res.data });
+    });
 };
 
 export const setPost = (post) => (dispatch) => {

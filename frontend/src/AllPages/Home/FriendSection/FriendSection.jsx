@@ -8,8 +8,8 @@ const AllUserSection = () => {
   const dispatch = useDispatch();
   const { allusers, token, user } = useSelector((store) => store);
   const userId = user._id;
-  console.log("user:", userId);
-  console.log("alluser:", allusers);
+  // console.log("user:", userId);
+  // console.log("alluser:", allusers);
 
   const headers = {
     Authorization: token,
@@ -20,7 +20,7 @@ const AllUserSection = () => {
   }, []);
 
   return (
-    <Box w={{ lg: "30%", md: "100%", sm: "100%" }}>
+    <Box w={{ lg: "40%", md: "100%", sm: "100%" }}>
       {allusers?.map((el) => {
         if (userId !== el._id) {
           return (

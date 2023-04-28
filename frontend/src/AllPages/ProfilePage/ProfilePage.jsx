@@ -10,11 +10,13 @@ import WorkIcon from "@mui/icons-material/Work";
 import CommentIcon from "@mui/icons-material/Comment";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { setPosts } from "../../Redux/action";
+import { setPosts, setSingleUserPost } from "../../Redux/action";
+import AllUserSection from "../Home/FriendSection/FriendSection";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
-  const { token, posts } = useSelector((store) => store);
+  const { token, posts, singleUserPost } = useSelector((store) => store);
+  console.log("singleUserPost: from redux", singleUserPost);
   const [toggle, setToggle] = useState(false);
 
   /* This for re-rendor the app  */
@@ -27,21 +29,21 @@ const ProfilePage = () => {
     Authorization: token,
   };
 
-  const [singlePosts, setsinglePosts] = useState([]);
+  // const [singlePosts, setsinglePosts] = useState([]);
   const [singleUser, setSingleUser] = useState(null);
   const { userId } = useParams();
-  console.log("userId:", userId);
+  console.log("userId in profile page:", userId);
   // const paramsId = userId.id;
   // console.log("paramsId", paramsId);
 
-  const handleFetchSinglePosts = () => {
-    axios
-      .get(`http://localhost:8080/posts/profile/${userId}`, { headers })
-      .then((res) => {
-        setsinglePosts(res.data);
-        // console.log(res.data, "inside api");
-      });
-  };
+  // const handleFetchSinglePosts = (userId) => {
+  //   axios
+  //     .get(`http://localhost:8080/posts/profile/${userId}`, { headers })
+  //     .then((res) => {
+  //       setsinglePosts(res.data);
+  //       console.log(res.data, "inside api");
+  //     });
+  // };
 
   const handleFetchUser = () => {
     axios
@@ -98,10 +100,12 @@ const ProfilePage = () => {
   };
 
   useEffect(() => {
-    handleFetchSinglePosts();
+    dispatch(setSingleUserPost(headers, userId));
+    // handleFetchSinglePosts();
     handleFetchUser();
-  }, [toggle]);
-  console.log("post", posts);
+  }, [toggle, userId]);
+
+  // console.log("singlePosts", singleUserPost);
 
   return (
     <Box>
@@ -109,6 +113,7 @@ const ProfilePage = () => {
         <Navbar />
       </Box>
       <Flex
+        pt={"2rem"}
         display={{ lg: "flex", md: "block", sm: "block" }}
         justifyContent={"space-between"}
         w={"80%"}
@@ -117,7 +122,7 @@ const ProfilePage = () => {
         <Box
           py="2rem"
           px={"1rem"}
-          mt={"2rem"}
+          // mt={"2rem"}
           borderRadius={"10px"}
           w={{ lg: "65%", md: "100%", sm: "100%" }}
           // h={"40rem"}
@@ -128,6 +133,7 @@ const ProfilePage = () => {
             transition: "0.4s",
           }}
           border={"1.5px solid #E1E4E8"}
+          // pb={{ lg: "0px", md: "6rem", sm: "6rem" }}
         >
           <Box px="0.5rem">
             <Image h={"200px"} w="100%" src={profile} />
@@ -182,21 +188,8 @@ const ProfilePage = () => {
             </Box>
           </Box>
         </Box>
-        {/*  Right Container */}
-        <Box
-          mt={"2rem"}
-          borderRadius={"10px"}
-          w={{ lg: "30%", md: "100%", sm: "100%" }}
-          h={"30rem"}
-          _hover={{
-            boxShadow:
-              "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;",
-            transition: "0.4s",
-          }}
-          border={"1.5px solid #E1E4E8"}
-        >
-          {/*  */}
-        </Box>
+        {/* Right section */}
+        <AllUserSection />
       </Flex>
       <Box pt="2rem" m="auto" w="80%" h="40rem">
         <Grid
@@ -207,14 +200,14 @@ const ProfilePage = () => {
           }}
           gap={6}
         >
-          {singlePosts?.map((ele) => (
+          {singleUserPost?.map((ele) => (
             <Box
+              key={ele._id}
               borderRadius={"8px"}
               _hover={{
                 boxShadow:
                   "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;",
               }}
-              key={ele._id}
               mb="10px"
               p="1rem"
               border={"1.5px solid #E1E4E8"}
