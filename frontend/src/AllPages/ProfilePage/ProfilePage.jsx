@@ -10,12 +10,10 @@ import WorkIcon from "@mui/icons-material/Work";
 import CommentIcon from "@mui/icons-material/Comment";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { useNavigate } from "react-router-dom";
 import { setPosts } from "../../Redux/action";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { token, posts } = useSelector((store) => store);
   const [toggle, setToggle] = useState(false);
 

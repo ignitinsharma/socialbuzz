@@ -1,11 +1,11 @@
 import {
+  GET_ALL_USERS,
   GET_POSTS,
   SET_FRIENDS,
   SET_LOGIN,
   SET_LOGOUT,
   SET_POST,
   SET_POSTS,
-  SET_SINGLE_USER_POSTS,
 } from "./actionTypes";
 import axios from "axios";
 
@@ -30,10 +30,11 @@ export const setFetchAllPosts = (headers) => (dispatch) => {
     dispatch({ type: GET_POSTS, payload: res.data });
   });
 };
-
-// export const setSingleUserPosts = (posts) => (dispatch) => {
-//   dispatch({ type: SET_SINGLE_USER_POSTS, payload: { posts } });
-// };
+export const setFetchAllUsers = (headers) => (dispatch) => {
+  axios.get(`http://localhost:8080/user/allusers`, { headers }).then((res) => {
+    dispatch({ type: GET_ALL_USERS, payload: res.data });
+  });
+};
 
 export const setPost = (post) => (dispatch) => {
   dispatch({ type: SET_POST, payload: { post } });

@@ -112,12 +112,10 @@ const PostFeed = () => {
     dispatch(setFetchAllPosts(headers));
   }, [toggleUseEffect]);
 
-  console.log("posts:", posts);
-
   return (
     <Box mt="2rem">
       {posts &&
-        posts.reverse().map((ele) => (
+        posts.map((ele) => (
           <Box key={ele._id} mb="10px" p="1rem" border={"1.5px solid #E1E4E8"}>
             <Flex>
               <Image

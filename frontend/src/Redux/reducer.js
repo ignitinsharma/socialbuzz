@@ -1,9 +1,9 @@
 import {
+  GET_ALL_USERS,
   GET_POSTS,
   SET_FRIENDS,
   SET_LOGIN,
   SET_LOGOUT,
-  SET_POST,
   SET_POSTS,
 } from "./actionTypes";
 
@@ -11,6 +11,7 @@ const initialState = {
   user: null,
   token: null,
   posts: [],
+  allusers: [],
 };
 
 export const mainReducer = (state = initialState, { type, payload }) => {
@@ -42,6 +43,12 @@ export const mainReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         posts: payload,
+      };
+    }
+    case GET_ALL_USERS: {
+      return {
+        ...state,
+        allusers: payload,
       };
     }
     // case SET_POST: {
