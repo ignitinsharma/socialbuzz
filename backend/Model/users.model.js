@@ -1,16 +1,10 @@
 const mongoose = require("mongoose");
-
+const { ObjectId } = mongoose.Schema.Types;
 const userSchema = new mongoose.Schema(
   {
-    firstName: {
+    fullName: {
       type: String,
       required: true,
-      min: 2,
-      max: 50,
-    },
-    lastName: {
-      type: String,
-      required: false,
       min: 2,
       max: 50,
     },
@@ -29,10 +23,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    friends: {
-      type: Array,
-      default: [],
-    },
+    followers: [
+      {
+        type: ObjectId,
+        ref: "user",
+      },
+    ],
     location: String,
     occupation: String,
   },

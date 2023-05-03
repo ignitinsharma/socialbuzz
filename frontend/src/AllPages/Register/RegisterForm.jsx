@@ -16,8 +16,9 @@ const RegisterForm = () => {
   const [postImage, setPostImage] = useState(null);
   const [updatedImage, setUpdatedImage] = useState(null);
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    // firstName: "",
+    // lastName: "",
+    fullName: "",
     email: "",
     password: "",
     location: "",
@@ -94,7 +95,7 @@ const RegisterForm = () => {
     <div>
       <form onSubmit={handleFormSubmit}>
         <Flex gap={"2px"}>
-          <FormControl isRequired>
+          {/* <FormControl isRequired>
             <FormLabel>Enter First Name</FormLabel>
             <Input
               type="text"
@@ -103,8 +104,18 @@ const RegisterForm = () => {
               value={formData.firstName}
               onChange={handleInputChange}
             />
-          </FormControl>
+          </FormControl> */}
           <FormControl isRequired>
+            <FormLabel>Enter Full Name</FormLabel>
+            <Input
+              type="text"
+              name="fullName"
+              placeholder="e.x. Elon Musk"
+              value={formData.fullName}
+              onChange={handleInputChange}
+            />
+          </FormControl>
+          {/* <FormControl isRequired>
             <FormLabel>Enter Last Name</FormLabel>
             <Input
               type="text"
@@ -113,7 +124,7 @@ const RegisterForm = () => {
               value={formData.lastName}
               onChange={handleInputChange}
             />
-          </FormControl>
+          </FormControl> */}
         </Flex>
 
         <FormControl isRequired mt={4}>

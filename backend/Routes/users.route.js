@@ -7,19 +7,23 @@ const {
   addRemoveFriend,
   getUserFriends,
   getAllRegisteredUser,
+  getUserFromSearch,
+  getUnfollowUser,
+  getFollowUser,
 } = require("../Controller/user");
 const userRoute = express.Router();
 
-/* Get All Users */
-userRoute.get("/allusers", getAllRegisteredUser);
+/* GET ALL USERS */
+userRoute.get("/allusers", verifyToken, getAllRegisteredUser);
 
-/* READ */
+/* GET SINGLE USER */
 userRoute.get("/:id", verifyToken, getUser);
 
-userRoute.get("/:id/friends", verifyToken, getUserFriends);
+/* ADD FOLLOWERS */
+userRoute.put("/follow", getFollowUser);
 
-/* UPDATE */
-userRoute.patch("/:id/:friendId", verifyToken, addRemoveFriend);
+/* REMOVE FOLLOWERS */
+userRoute.put("/unfollow", getUnfollowUser);
 module.exports = {
   userRoute,
 };

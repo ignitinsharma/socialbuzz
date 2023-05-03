@@ -13,8 +13,9 @@ const createPost = async (req, res) => {
       postPicturePath: updatedImage,
       /* Here we are checking or setting if post user id or actual user if
       same or then we are setting post user to that user */
-      firstName: user.firstName,
-      lastName: user.lastName,
+      // firstName: user.firstName,
+      // lastName: user.lastName,
+      fullName: user.fullName,
       location: user.location,
       userPicturePath: user.picturePath,
       likes: [],

@@ -22,7 +22,7 @@ const SinglePostPage = () => {
   const userId = user._id;
 
   return (
-    <Box w={"100%"} border={"1px solid red"} m="auto">
+    <Box w={"100%"} m="auto">
       <Box>
         <Navbar />
       </Box>
@@ -66,7 +66,7 @@ const SinglePostPage = () => {
                       fontWeight={"bold"}
                       //   onClick={() => navigate(`/profile/${ele.userId}`)}
                     >
-                      {`${ele.firstName} ${ele.lastName}`}
+                      {ele.fullName}
                     </Text>
                     <Text
                       color={"var(--main-color)"}
@@ -149,7 +149,7 @@ const SinglePostPage = () => {
                                 _firstLetter={{ textTransform: "capitalize;" }}
                                 fontWeight={"bold"}
                               >
-                                {`${el.user.firstName} ${el.user.lastName}`}
+                                {el.user.fullName}
                               </Text>
                               <Text fontSize={"13px"}>{el.userComment}</Text>
                             </Box>

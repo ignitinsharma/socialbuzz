@@ -1,6 +1,8 @@
 import {
   GET_ALL_USERS,
+  GET_FOLLOW_USER,
   GET_POSTS,
+  GET_SINGLE_USER,
   GET_SINGLE_USER_POST,
   SET_FRIENDS,
   SET_LOGIN,
@@ -14,6 +16,7 @@ const initialState = {
   posts: [],
   allusers: [],
   singleUserPost: [],
+  singleUser: null,
 };
 
 export const mainReducer = (state = initialState, { type, payload }) => {
@@ -57,6 +60,19 @@ export const mainReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         singleUserPost: payload,
+      };
+    }
+    case GET_SINGLE_USER: {
+      return {
+        ...state,
+        singleUser: payload,
+      };
+    }
+    case GET_FOLLOW_USER: {
+      return {
+        ...state,
+        ...state.allusers,
+        allusers: payload,
       };
     }
     // case SET_POST: {

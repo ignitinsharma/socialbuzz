@@ -8,8 +8,9 @@ const authController = express.Router();
 authController.post("/register", async (req, res) => {
   /* Getting the things from the frontend  */
   const {
-    firstName,
-    lastName,
+    // firstName,
+    // lastName,
+    fullName,
     email,
     password,
     updatedImage,
@@ -23,8 +24,9 @@ authController.post("/register", async (req, res) => {
     const passwordHash = await bcrypt.hash(password, hassing_password);
 
     const newUser = new userModel({
-      firstName,
-      lastName,
+      // firstName,
+      // lastName,
+      fullName,
       email,
       password: passwordHash,
       picturePath: updatedImage,

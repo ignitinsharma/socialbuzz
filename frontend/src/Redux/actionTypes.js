@@ -6,3 +6,6 @@ export const SET_POST = "auth/setPost";
 export const GET_POSTS = "auth/getPosts";
 export const GET_ALL_USERS = "auth/getAllUsers";
 export const GET_SINGLE_USER_POST = "auth/getSingleUserPost";
+export const GET_SINGLE_USER = "auth/getSingleUser";
+export const GET_FOLLOW_USER = "auth/getFollowUser";
+export const GET_UNFOLLOW_USER = "auth/getUnfollowUser";

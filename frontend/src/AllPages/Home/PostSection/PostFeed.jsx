@@ -14,12 +14,19 @@ import CommentIcon from "@mui/icons-material/Comment";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { Link, useNavigate } from "react-router-dom";
-import { setFetchAllPosts, setPosts } from "../../../Redux/action";
+import {
+  setFetchAllPosts,
+  setFollowUser,
+  setPosts,
+} from "../../../Redux/action";
 const PostFeed = () => {
   const toast = useToast();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { token, user, posts } = useSelector((store) => store);
+  const { token, user, allusers, posts } = useSelector((store) => store);
+  // console.log('alluser:', allusers)
+  // console.log("posts: in feed page:", posts);
+  // console.log("user in feed page:", user);
   const userId = user._id;
   const [toggleUseEffect, setToggleUseEffect] = useState(false);
   const [toggleComment, setToggleComment] = useState(false);
@@ -47,7 +54,7 @@ const PostFeed = () => {
           }
         });
         dispatch(setPosts(newData));
-        console.log("like res:", res.data);
+        // console.log("like res:", res.data);
         handleToggle();
       })
       .catch((error) => {
@@ -72,7 +79,7 @@ const PostFeed = () => {
           }
         });
         dispatch(setPosts(newData));
-        console.log("dislike res:", res);
+        // console.log("dislike res:", res);
         handleToggle();
       })
       .catch((error) => {
@@ -125,20 +132,55 @@ const PostFeed = () => {
                 alt="Dan Abramov"
                 objectFit={"cover"}
               />
-              <Box ml={"10px"}>
-                <Text
-                  cursor={"pointer"}
-                  _hover={{
-                    textDecoration: "underline",
-                    textDecorationThickness: "0.8px",
-                    textUnderlineOffset: "3px",
-                  }}
-                  _firstLetter={{ textTransform: "capitalize;" }}
-                  fontWeight={"bold"}
-                  onClick={() => navigate(`/profile/${ele.userId}`)}
-                >
-                  {`${ele.firstName} ${ele.lastName}`}
-                </Text>
+              <Box w="100%" ml={"10px"}>
+                <Flex justifyContent={"space-between"}>
+                  <Text
+                    cursor={"pointer"}
+                    _hover={{
+                      textDecoration: "underline",
+                      textDecorationThickness: "0.8px",
+                      textUnderlineOffset: "3px",
+                    }}
+                    _firstLetter={{ textTransform: "capitalize;" }}
+                    fontWeight={"bold"}
+                    onClick={() => navigate(`/profile/${ele.userId}`)}
+                  >
+                    {/* {`${ele.firstName} ${ele.lastName}`} */}
+                    {`${ele.fullName}`}
+                  </Text>
+                  <Button
+                    ml={"2rem"}
+                    variant="outline"
+                    letterSpacing="wide"
+                    fontSize="xs"
+                    height="6"
+                    px="3"
+                    bg="gray.900"
+                    color="white"
+                    borderColor="gray.900"
+                    _hover={{
+                      bg: "gray.700",
+                    }}
+                    onClick={() =>
+                      dispatch(setFollowUser(headers, userId, ele._id))
+                    }
+                  >
+                    Follow
+                  </Button>
+                  <Button
+                    ml={"2rem"}
+                    variant="outline"
+                    letterSpacing="wide"
+                    fontSize="xs"
+                    height="6"
+                    px="3"
+                    bg="white.500"
+                    color="black"
+                    borderColor="white.900"
+                  >
+                    Unfollow
+                  </Button>
+                </Flex>
                 <Text
                   color={"var(--main-color)"}
                   fontSize={"12px"}

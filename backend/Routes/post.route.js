@@ -10,19 +10,19 @@ const {
 const { postModel } = require("../Model/posts.model.js");
 const postsRoute = express.Router();
 
-/* READ */
+/* GET ALL FEED POSTS */
 postsRoute.get("/", verifyToken, getAllFeedPosts);
 
-/* Get single user POST*/
+/* GET SINGLE USER POST*/
 postsRoute.get("/profile/:userId", verifyToken, getUserPosts);
 
-/* LIKE  AND DISLIKE POST */
+/* LIKE POST */
 postsRoute.put("/like", verifyToken, likePost);
 
 /*DISLIKE POST */
 postsRoute.put("/dislike", verifyToken, DislikePost);
 
-/*Comment POST */
+/*COMMENT POST */
 postsRoute.put("/comment", verifyToken, CommentPost);
 
 module.exports = {

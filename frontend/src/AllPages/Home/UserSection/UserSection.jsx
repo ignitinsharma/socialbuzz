@@ -35,14 +35,12 @@ const UserSection = () => {
                 textUnderlineOffset: "3px",
               }}
             >
-              {`${user.firstName} ${user.lastName}`}
+              {/* {`${user.firstName} ${user.lastName}`} */}
+              {`${user.fullName}`}
             </Text>
-            <Text fontSize={"12px"}>{user.friends.length} friends</Text>
+            <Text fontSize={"12px"}>0 friends</Text>
           </Box>
         </Flex>
-        <Box cursor={"pointer"}>
-          <PersonAddIcon />
-        </Box>
       </Flex>
       <Divider mt={"0.5rem"} />
       <Box p="2px">

@@ -10,47 +10,30 @@ import WorkIcon from "@mui/icons-material/Work";
 import CommentIcon from "@mui/icons-material/Comment";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { setPosts, setSingleUserPost } from "../../Redux/action";
+import { setPosts, setSingleUser, setSingleUserPost } from "../../Redux/action";
 import AllUserSection from "../Home/FriendSection/FriendSection";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
-  const { token, posts, singleUserPost } = useSelector((store) => store);
-  console.log("singleUserPost: from redux", singleUserPost);
+  const { token, posts, singleUserPost, singleUser } = useSelector(
+    (store) => store
+  );
   const [toggle, setToggle] = useState(false);
+  const { userId } = useParams();
 
   /* This for re-rendor the app  */
   const handleToggle = () => {
     setToggle(!toggle);
   };
-  // console.log("user:", user);
-
   const headers = {
     Authorization: token,
   };
-
-  // const [singlePosts, setsinglePosts] = useState([]);
-  const [singleUser, setSingleUser] = useState(null);
-  const { userId } = useParams();
-  console.log("userId in profile page:", userId);
-  // const paramsId = userId.id;
-  // console.log("paramsId", paramsId);
-
-  // const handleFetchSinglePosts = (userId) => {
-  //   axios
-  //     .get(`http://localhost:8080/posts/profile/${userId}`, { headers })
-  //     .then((res) => {
-  //       setsinglePosts(res.data);
-  //       console.log(res.data, "inside api");
-  //     });
-  // };
 
   const handleFetchUser = () => {
     axios
       .get(`http://localhost:8080/user/${userId}`, { headers })
       .then((res) => {
         setSingleUser(res.data);
-        // console.log(res.data.picturePath, "user info");
       });
   };
 
@@ -101,7 +84,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     dispatch(setSingleUserPost(headers, userId));
-    // handleFetchSinglePosts();
+    dispatch(setSingleUser(headers, userId));
     handleFetchUser();
   }, [toggle, userId]);
 
@@ -152,7 +135,8 @@ const ProfilePage = () => {
                   fontSize={"24px"}
                   fontWeight={"bold"}
                 >
-                  {`${singleUser?.firstName} ${singleUser?.lastName}`}
+                  {`${singleUser?.fullName}`}
+                  {/* {`${singleUser?.firstName} ${singleUser?.lastName}`} */}
                 </Text>
                 <Button
                   ml={"2rem"}
@@ -231,7 +215,7 @@ const ProfilePage = () => {
                     _firstLetter={{ textTransform: "capitalize;" }}
                     fontWeight={"bold"}
                   >
-                    {`${ele.firstName} ${ele.lastName}`}
+                    {ele.fullName}
                   </Text>
                   <Text
                     color={"var(--main-color)"}
