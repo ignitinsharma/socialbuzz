@@ -145,7 +145,6 @@ const PostFeed = () => {
                     fontWeight={"bold"}
                     onClick={() => navigate(`/profile/${ele.userId}`)}
                   >
-                    {/* {`${ele.firstName} ${ele.lastName}`} */}
                     {`${ele.fullName}`}
                   </Text>
                   <Button

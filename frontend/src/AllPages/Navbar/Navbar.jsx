@@ -41,24 +41,53 @@ export default function Navbar() {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [toggleInputBox, setToggleInputBox] = useState(false);
-  const [searchUsers, setsearchUsers] = useState(null);
+  const [searchUsers, setsearchUsers] = useState([]);
   const [handleInputValue, setHandleInputValue] = useState(null);
-  const inputRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   const handleLogoutClick = () => {
     dispatch(setLogout());
     navigate("/");
   };
 
-  const handleInputKeyPress = (event) => {
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setsearchUsers([]);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  const handleInputKeyPress = async (event) => {
+    /* It means if user press enter then it will excute  */
     if (event.key === "Enter") {
-      axios
-        .post("http://localhost:8080/user/search", { query: handleInputValue })
-        .then((data) => {
-          setsearchUsers(data.data);
-          console.log("data:", data.data);
-        })
-        .catch((error) => console.error(error));
+      /* But if user entered and in input no value present so
+          are making our state empty and also input box value
+      */
+      if (handleInputValue.trim() === "") {
+        setHandleInputValue("");
+        setsearchUsers([]);
+        return;
+      } else {
+        /* Otherwise we are fetching that api */
+        try {
+          const response = await axios.post(
+            "http://localhost:8080/user/search",
+            {
+              query: handleInputValue,
+            }
+          );
+          setsearchUsers(response.data);
+        } catch (error) {
+          console.error(error);
+        }
+      }
     }
   };
 
@@ -100,6 +129,7 @@ export default function Navbar() {
                     py={2}
                     px={4}
                     borderRadius={"8px"}
+                    ref={dropdownRef}
                   />
                   <InputRightElement
                     w={"4.5rem"}
@@ -129,6 +159,7 @@ export default function Navbar() {
                   >
                     {searchUsers?.map((user) => (
                       <Flex
+                        onClick={() => navigate(`/profile/${user._id}`)}
                         key={user._id}
                         px={4}
                         py={2}
