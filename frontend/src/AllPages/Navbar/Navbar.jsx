@@ -15,6 +15,9 @@ import {
   Menu,
   MenuList,
   Input,
+  List,
+  ListItem,
+  Image,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -26,6 +29,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { setLogout } from "../../Redux/action";
 import { useEffect, useRef, useState } from "react";
+import axios from "axios";
 
 const Links = [];
 
@@ -35,6 +39,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [toggleInputBox, setToggleInputBox] = useState(false);
+  const [searchUsers, setsearchUsers] = useState(null);
   const [handleInputValue, setHandleInputValue] = useState(null);
   const inputRef = useRef(null);
 
@@ -45,13 +50,18 @@ export default function Navbar() {
 
   const handleToggleInputBox = () => {
     setToggleInputBox(!toggleInputBox);
-    console.log(handleInputValue, "input value");
-    let newUsers = allusers.filter((ele) => {
-      if (ele.fullName.toLowerCase() == handleInputValue) {
-        return ele;
-      }
-    });
-    // console.log(newUsers, "newUsers");
+  };
+
+  const handleInputKeyPress = (event) => {
+    if (event.key === "Enter") {
+      axios
+        .post("http://localhost:8080/user/search", { query: handleInputValue })
+        .then((data) => {
+          setsearchUsers(data.data);
+          console.log("data:", data.data);
+        })
+        .catch((error) => console.error(error));
+    }
   };
 
   useEffect(() => {
@@ -61,6 +71,7 @@ export default function Navbar() {
     }
   }, [toggleInputBox]);
 
+  console.log(searchUsers, "searchUsers");
   return (
     <>
       <Box
@@ -113,6 +124,7 @@ export default function Navbar() {
               {toggleInputBox ? (
                 <Box mr={4}>
                   <Input
+                    onKeyPress={handleInputKeyPress}
                     onChange={(e) => setHandleInputValue(e.target.value)}
                     placeholder="find users.."
                     h={"30px"}
@@ -124,6 +136,49 @@ export default function Navbar() {
               <Box cursor={"pointer"} onClick={handleToggleInputBox} mr={4}>
                 <SearchIcon />
               </Box>
+              {searchUsers?.length > 0 && (
+                <Box
+                  position="absolute"
+                  // border={"1px solid red"}
+                  width="100%"
+                  maxWidth="300px"
+                  bg="white"
+                  boxShadow="sm"
+                  zIndex={1}
+                  height={"auto"}
+                  // mt={"10rem"}
+                  top={"4rem"}
+                >
+                  <List
+                    spacing={0}
+                    border="1px solid gray"
+                    borderRadius="md"
+                    overflow="hidden"
+                  >
+                    {searchUsers?.map((user) => (
+                      <Flex
+                        key={user._id}
+                        px={4}
+                        py={2}
+                        _hover={{ bg: "gray.100" }}
+                      >
+                        <Image
+                          borderRadius="full"
+                          boxSize="25px"
+                          src={user.picturePath}
+                          alt="Dan Abramov"
+                          objectFit={"cover"}
+                        />
+                        <Text fontWeight={"bold"} ml={"1rem"}>
+                          {" "}
+                          {user.fullName}
+                        </Text>
+                      </Flex>
+                    ))}
+                  </List>
+                </Box>
+              )}
+
               {/* ) : null} */}
 
               {/* <Box mr={4}>

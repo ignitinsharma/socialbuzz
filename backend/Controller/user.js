@@ -1,5 +1,23 @@
 const { userModel } = require("../Model/users.model.js");
 
+const getUserFromSearch = async (req, res) => {
+  try {
+    const { query } = req.body;
+    console.log("query:", query);
+
+    // Create a regular expression object with the query
+    const regex = new RegExp(query, "i");
+    console.log("regex:", regex);
+
+    // Use the regular expression to search in MongoDB
+    const user = await userModel.find({ fullName: regex });
+    console.log("user:", user);
+    res.status(200).send(user);
+  } catch (err) {
+    res.status(404).send({ message: err.message });
+  }
+};
+
 const getAllRegisteredUser = async (req, res) => {
   try {
     const users = await userModel.find();
@@ -111,7 +129,7 @@ const getUnfollowUser = async (req, res) => {
 // };
 
 module.exports = {
-  // getUserFromSearch,
+  getUserFromSearch,
   getAllRegisteredUser,
   getUser,
   getFollowUser,

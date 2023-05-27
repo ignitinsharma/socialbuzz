@@ -4,14 +4,16 @@ const jwt = require("jsonwebtoken");
 const { verifyToken } = require("../Middleware/auth.middlware.js");
 const {
   getUser,
-  addRemoveFriend,
-  getUserFriends,
   getAllRegisteredUser,
-  getUserFromSearch,
   getUnfollowUser,
   getFollowUser,
+  getUserFromSearch,
 } = require("../Controller/user");
 const userRoute = express.Router();
+
+/* SEARCH USER USING NAME */
+userRoute.post("/search", getUserFromSearch);
+// userRoute.get("/search", verifyToken, getSearchUser);
 
 /* GET ALL USERS */
 userRoute.get("/allusers", verifyToken, getAllRegisteredUser);
