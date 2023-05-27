@@ -18,6 +18,8 @@ import {
   List,
   ListItem,
   Image,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -48,10 +50,6 @@ export default function Navbar() {
     navigate("/");
   };
 
-  const handleToggleInputBox = () => {
-    setToggleInputBox(!toggleInputBox);
-  };
-
   const handleInputKeyPress = (event) => {
     if (event.key === "Enter") {
       axios
@@ -64,14 +62,6 @@ export default function Navbar() {
     }
   };
 
-  useEffect(() => {
-    // If input box is being displayed, focus on it
-    if (toggleInputBox && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [toggleInputBox]);
-
-  console.log(searchUsers, "searchUsers");
   return (
     <>
       <Box
@@ -83,13 +73,6 @@ export default function Navbar() {
         borderBottom={"1.5px solid #E1E4E8"}
       >
         <Flex h={20} alignItems={"center"} justifyContent={"space-between"}>
-          {/* <IconButton
-            size={"md"}
-            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-            aria-label={"Open Menu"}
-            display={{ md: "none" }}
-            onClick={isOpen ? onClose : onOpen}
-          /> */}
           <HStack spacing={8} alignItems={"center"}>
             <Text
               color="var(--main-color)"
@@ -101,52 +84,41 @@ export default function Navbar() {
               {" "}
               &lt;SocialBuzz/&gt;
             </Text>
-            {/* <HStack
-              as={"nav"}
-              spacing={4}
-              display={{ base: "none", md: "flex" }}
-            >
-              {Links.map((link) => (
-                <Link
-                  style={{ fontWeight: "550", marginRight: "0.6rem" }}
-                  fontSize="md"
-                  _hover={{ textDecoration: "none" }}
-                  href={link.path}
-                  key={link.id}
-                >
-                  {link.title}
-                </Link>
-              ))}
-            </HStack> */}
           </HStack>
           <Flex alignItems={"center"}>
             <Flex alignItems={"center"}>
-              {toggleInputBox ? (
-                <Box mr={4}>
+              {/* {toggleInputBox ? ( */}
+              <Box mr={4}>
+                <InputGroup mt={""}>
                   <Input
                     onKeyPress={handleInputKeyPress}
                     onChange={(e) => setHandleInputValue(e.target.value)}
                     placeholder="find users.."
-                    h={"30px"}
-                    ref={inputRef}
+                    border={"none"}
+                    backgroundColor={"rgba(255, 255, 255, 0.08)"}
+                    w={"250px"}
+                    py={2}
+                    px={4}
+                    borderRadius={"8px"}
                   />
-                </Box>
-              ) : null}
-              {/* {!toggleInputBox ? ( */}
-              <Box cursor={"pointer"} onClick={handleToggleInputBox} mr={4}>
-                <SearchIcon />
+                  <InputRightElement
+                    w={"4.5rem"}
+                    children={
+                      <SearchIcon boxSize={5} mt={2} opacity={"0.6"} mb={2} />
+                    }
+                  />
+                </InputGroup>
               </Box>
+
               {searchUsers?.length > 0 && (
                 <Box
                   position="absolute"
-                  // border={"1px solid red"}
                   width="100%"
                   maxWidth="300px"
                   bg="white"
                   boxShadow="sm"
                   zIndex={1}
                   height={"auto"}
-                  // mt={"10rem"}
                   top={"4rem"}
                 >
                   <List
@@ -178,14 +150,6 @@ export default function Navbar() {
                   </List>
                 </Box>
               )}
-
-              {/* ) : null} */}
-
-              {/* <Box mr={4}>
-              <Link href="cart">
-              <LocalMall />
-              </Link>
-            </Box> */}
               <Box mr={1}>
                 <Link href="signup">
                   <PersonIcon />
@@ -204,7 +168,6 @@ export default function Navbar() {
                     fontSize={"14px"}
                     _firstLetter={{ textTransform: "capitalize;" }}
                   >
-                    {/* {`${user.firstName} ${user.lastName}`} */}
                     {`${user.fullName}`}
                   </Text>
                 </MenuButton>
