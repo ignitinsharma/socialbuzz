@@ -13,6 +13,7 @@ The project uses the following technologies and frameworks:
 - CSS
 - Javscript
 - React.js
+- React-Router-Dom
 - Reduxjs
 - Chakra UI
 - MongoDB
