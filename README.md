@@ -2,6 +2,9 @@
 
 This is a social media application built using the MERN stack (MongoDB, Express.js, React.js, Node.js) along with Chakra UI for styling and JSON Web Token (JWT) for authentication. The app allows users to register, log in, post content, like posts, follow other users, and leave comments.
 
+## Deployed Link
+https://socialbuzz.vercel.app/
+
 ## Technologies
 
 The project uses the following technologies and frameworks:
