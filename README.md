@@ -96,6 +96,8 @@ The social media app includes the following features:
 - Mobile responsive \*
 
 
+
 Still working on it and fixing the bugs and issues...
 
-Handcrafted with ❤ & imagination by Nitin Sharma.
+
+*Handcrafted with ❤ & imagination by Nitin Sharma.*
