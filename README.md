@@ -22,8 +22,6 @@ The project uses the following technologies and frameworks:
 - JSON Web Token (JWT)
 - Cloudinary for Images
 
-Feel free to add any additional technologies or dependencies specific to your project.
-
 ## Installation
 
 Provide instructions on how to install and set up your project locally. Include any prerequisites or dependencies required. For example:
