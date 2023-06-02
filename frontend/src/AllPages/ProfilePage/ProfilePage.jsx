@@ -6,20 +6,34 @@ import { Link, useParams } from "react-router-dom";
 import profile from "../../assets/profile.svg";
 import Navbar from "../Navbar/Navbar";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import WorkIcon from "@mui/icons-material/Work";
 import CommentIcon from "@mui/icons-material/Comment";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { setPosts, setSingleUser, setSingleUserPost } from "../../Redux/action";
+import {
+  setFollowUser,
+  setPosts,
+  setSingleUser,
+  setSingleUserPost,
+  setUnFollowUser,
+} from "../../Redux/action";
 import AllUserSection from "../Home/FriendSection/FriendSection";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
-  const { token, posts, singleUserPost, singleUser } = useSelector(
-    (store) => store
-  );
+  const { token, posts, user, singleUserPost, singleUser, isFollowUser } =
+    useSelector((store) => store);
+  // console.log("user:", user._id);
+  // console.log("isFollowUser:", isFollowUser);
+  const [isFollow, setisFollow] = useState(false);
+  // console.log("isFollow:", isFollow);
+
+  const userIdWhoIsFollowing = user._id;
+  // console.log("userIdWhoIsFollowing:", userIdWhoIsFollowing);
   const [toggle, setToggle] = useState(false);
   const { userId } = useParams();
+  // const [isFollow, setIsFollow] = useState(false);
 
   /* This for re-rendor the app  */
   const handleToggle = () => {
@@ -27,6 +41,22 @@ const ProfilePage = () => {
   };
   const headers = {
     Authorization: token,
+  };
+
+  console.log(user._id, user.fullName);
+  console.log(singleUser.followers, "followers");
+
+  const handleFollowUser = (userWhoIsGettingFollower) => {
+    dispatch(
+      setFollowUser(headers, userIdWhoIsFollowing, userWhoIsGettingFollower)
+    );
+    handleFetchUser();
+  };
+  const handleUnfollowUser = (userWhoIsGettingFollower) => {
+    dispatch(
+      setUnFollowUser(headers, userIdWhoIsFollowing, userWhoIsGettingFollower)
+    );
+    handleFetchUser();
   };
 
   const handleFetchUser = () => {
@@ -49,7 +79,7 @@ const ProfilePage = () => {
           }
         });
         dispatch(setPosts(newData));
-        console.log("like res:", res.data);
+        // console.log("like res:", res.data);
         handleToggle();
       })
       .catch((error) => {
@@ -74,7 +104,7 @@ const ProfilePage = () => {
           }
         });
         dispatch(setPosts(newData));
-        console.log("dislike res:", res);
+        // console.log("dislike res:", res);
         handleToggle();
       })
       .catch((error) => {
@@ -82,12 +112,21 @@ const ProfilePage = () => {
       });
   };
 
+  // console.log(singleUser._id);
+
   useEffect(() => {
     dispatch(setSingleUserPost(headers, userId));
     dispatch(setSingleUser(headers, userId));
     handleFetchUser();
-  }, [toggle, userId]);
+  }, [toggle, userId, isFollowUser]);
 
+  // useEffect(() => {
+  //   if (singleUser?.followers.includes(user._id)) {
+  //     setisFollow(true);
+  //     // handleToggle();
+  //   }
+  // }, [isFollow]);
+  // console.log("isFollow:", isFollow);
   // console.log("singlePosts", singleUserPost);
 
   return (
@@ -138,29 +177,50 @@ const ProfilePage = () => {
                   {`${singleUser?.fullName}`}
                   {/* {`${singleUser?.firstName} ${singleUser?.lastName}`} */}
                 </Text>
-                <Button
-                  ml={"2rem"}
-                  variant="outline"
-                  fontWeight="medium"
-                  letterSpacing="wide"
-                  transition="all ease-in 75ms"
-                  borderRadius="md"
-                  fontSize="xs"
-                  height="6"
-                  px="3"
-                  bg="gray.900"
-                  color="white"
-                  border="1px solid"
-                  borderColor="gray.900"
-                  _hover={{
-                    bg: "gray.700",
-                  }}
-                >
-                  Follow
-                </Button>
+                {isFollowUser ? (
+                  <Button
+                    ml={"2rem"}
+                    variant="outline"
+                    letterSpacing="wide"
+                    fontSize="xs"
+                    height="6"
+                    px="3"
+                    bg="white.500"
+                    color="black"
+                    borderColor="white.900"
+                    onClick={() => handleUnfollowUser(singleUser?._id)}
+                  >
+                    Unfollow
+                  </Button>
+                ) : (
+                  <Button
+                    ml={"2rem"}
+                    variant="outline"
+                    letterSpacing="wide"
+                    fontSize="xs"
+                    height="6"
+                    px="3"
+                    bg="gray.900"
+                    color="white"
+                    borderColor="gray.900"
+                    _hover={{
+                      bg: "gray.700",
+                    }}
+                    onClick={() => handleFollowUser(singleUser?._id)}
+                  >
+                    Follow
+                  </Button>
+                )}
               </Flex>
               <Flex display="block" mt="1rem" alignItems={"center"}>
                 <Stack direction="row">
+                  <PeopleAltIcon />
+                  <Text ml={"5px"}>
+                    {" "}
+                    {singleUser?.followers.length} Followers
+                  </Text>
+                </Stack>
+                <Stack mt="10px" direction="row">
                   <WorkIcon />
                   <Text ml={"5px"}> {singleUser?.occupation}</Text>
                 </Stack>

@@ -41,10 +41,12 @@ const PostFeed = () => {
     Authorization: token,
   };
 
+  // const method = isFollowing ? "DELETE" : "POST";
+  const baseUrl = "http://localhost:8080";
   /* Like Post */
   const likePost = (postId) => {
     axios
-      .put(`http://localhost:8080/posts/like`, { userId, postId }, { headers })
+      .put(`${baseUrl}/posts/like`, { userId, postId }, { headers })
       .then((res) => {
         const newData = posts.map((posts) => {
           if (posts._id == res._id) {
@@ -65,11 +67,7 @@ const PostFeed = () => {
   /* disLike Post */
   const disLikePost = (postId) => {
     axios
-      .put(
-        `http://localhost:8080/posts/dislike`,
-        { userId, postId },
-        { headers }
-      )
+      .put(`${baseUrl}/posts/dislike`, { userId, postId }, { headers })
       .then((res) => {
         const newData = posts.map((posts) => {
           if (posts._id == res._id) {
@@ -90,7 +88,7 @@ const PostFeed = () => {
   const handleSubmitComment = (postId) => {
     axios
       .put(
-        `http://localhost:8080/posts/comment`,
+        `${baseUrl}/posts/comment`,
         {
           userId,
           user,
@@ -119,6 +117,15 @@ const PostFeed = () => {
     dispatch(setFetchAllPosts(headers));
   }, [toggleUseEffect]);
 
+  const handleFollowandUnfollowUser = (
+    headers,
+    userId,
+    userWhoIsGettingFollower,
+    method
+  ) => {
+    // setIsFollowing((prevState) => !prevState);
+    dispatch(setFollowUser(headers, userId, userWhoIsGettingFollower, method));
+  };
   return (
     <Box mt="2rem">
       {posts &&
@@ -147,38 +154,6 @@ const PostFeed = () => {
                   >
                     {`${ele.fullName}`}
                   </Text>
-                  <Button
-                    ml={"2rem"}
-                    variant="outline"
-                    letterSpacing="wide"
-                    fontSize="xs"
-                    height="6"
-                    px="3"
-                    bg="gray.900"
-                    color="white"
-                    borderColor="gray.900"
-                    _hover={{
-                      bg: "gray.700",
-                    }}
-                    onClick={() =>
-                      dispatch(setFollowUser(headers, userId, ele._id))
-                    }
-                  >
-                    Follow
-                  </Button>
-                  <Button
-                    ml={"2rem"}
-                    variant="outline"
-                    letterSpacing="wide"
-                    fontSize="xs"
-                    height="6"
-                    px="3"
-                    bg="white.500"
-                    color="black"
-                    borderColor="white.900"
-                  >
-                    Unfollow
-                  </Button>
                 </Flex>
                 <Text
                   color={"var(--main-color)"}

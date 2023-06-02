@@ -29,6 +29,12 @@ const userSchema = new mongoose.Schema(
         ref: "user",
       },
     ],
+    following: [
+      {
+        type: ObjectId,
+        ref: "user",
+      },
+    ],
     location: String,
     occupation: String,
   },

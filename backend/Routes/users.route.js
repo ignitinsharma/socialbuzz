@@ -1,6 +1,4 @@
 const express = require("express");
-const { userModel } = require("../Model/users.model.js");
-const jwt = require("jsonwebtoken");
 const { verifyToken } = require("../Middleware/auth.middlware.js");
 const {
   getUser,
@@ -16,10 +14,10 @@ userRoute.post("/search", getUserFromSearch);
 // userRoute.get("/search", verifyToken, getSearchUser);
 
 /* GET ALL USERS */
-userRoute.get("/allusers", verifyToken, getAllRegisteredUser);
+userRoute.get("/allusers", getAllRegisteredUser);
 
 /* GET SINGLE USER */
-userRoute.get("/:id", verifyToken, getUser);
+userRoute.get("/:id", getUser);
 
 /* ADD FOLLOWERS */
 userRoute.put("/follow", getFollowUser);

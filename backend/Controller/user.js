@@ -3,15 +3,12 @@ const { userModel } = require("../Model/users.model.js");
 const getUserFromSearch = async (req, res) => {
   try {
     const { query } = req.body;
-    console.log("query:", query);
 
     // Create a regular expression object with the query
     const regex = new RegExp(query, "i");
-    console.log("regex:", regex);
 
     // Use the regular expression to search in MongoDB
     const user = await userModel.find({ fullName: regex });
-    console.log("user:", user);
     res.status(200).send(user);
   } catch (err) {
     res.status(404).send({ message: err.message });
@@ -21,7 +18,6 @@ const getUserFromSearch = async (req, res) => {
 const getAllRegisteredUser = async (req, res) => {
   try {
     const users = await userModel.find();
-    // console.log("allusers", users);
     res.status(200).send(users);
   } catch (err) {
     res.status(404).send({ message: err.message });
@@ -41,92 +37,32 @@ const getUser = async (req, res) => {
 
 const getFollowUser = async (req, res) => {
   const { userIdWhoIsFollowing, userWhoIsGettingFollower } = req.body;
-  console.log("userWhoIsGettingFollower:", userWhoIsGettingFollower);
-  console.log("userIdWhoIsFollowing:", userIdWhoIsFollowing);
-
   try {
-    userModel
-      .findByIdAndUpdate(
-        { userId: userWhoIsGettingFollower },
-        /* User id got added into likes array  */
-        { $push: { followers: userIdWhoIsFollowing } },
-        {
-          new: true,
-        }
-      )
-      .then((updatedFollowers) => {
-        res.json(updatedFollowers);
-      })
-      .catch((err) => {
-        res.status(422).json({ error: err });
-      });
+    const user = await userModel.findByIdAndUpdate(
+      { _id: userWhoIsGettingFollower },
+      { $push: { followers: userIdWhoIsFollowing } },
+      { new: true }
+    );
+
+    res.json(user.followers);
   } catch (err) {
-    res.status(404).send({ message: err.message });
+    res.status(422).json({ error: err.message });
   }
 };
 
 const getUnfollowUser = async (req, res) => {
-  const { userId } = req.body;
-
+  const { userIdWhoIsFollowing, userWhoIsGettingFollower } = req.body;
   try {
-    // const { id, friendId } = req.params;
-    // const user = await userModel.findById(id);
-    // const friend = await userModel.findById(friendId);
-
-    // if (user.friends.includes(friendId)) {
-    //   user.friends = userModel.friends.filter((id) => id !== friendId);
-    //   friend.friends = friend.friends.filter((id) => id !== id);
-    // } else {
-    //   user.friends.push(friendId);
-    //   friend.friends.push(id);
-    // }
-    // await user.save();
-    // await friend.save();
-
-    // const friends = await Promise.all(
-    //   user.friends.map((id) => userModel.findById(id))
-    // );
-    // const formattedFriends = friends.map(
-    //   ({ _id, firstName, lastName, occupation, location, picturePath }) => {
-    //     return { _id, firstName, lastName, occupation, location, picturePath };
-    //   }
-    // );
-
-    res.status(200).send();
+    const user = await userModel.findByIdAndUpdate(
+      { _id: userWhoIsGettingFollower },
+      { $pull: { followers: userIdWhoIsFollowing } },
+      { new: true }
+    );
+    res.json(user.followers);
   } catch (err) {
-    res.status(404).send({ message: err.message });
+    res.status(422).json({ error: err.message });
   }
 };
-// const getUnfollowUser = async (req, res) => {
-//   try {
-//     const { id, friendId } = req.params;
-//     const user = await userModel.findById(id);
-//     const friend = await userModel.findById(friendId);
-
-//     if (user.friends.includes(friendId)) {
-//       user.friends = userModel.friends.filter((id) => id !== friendId);
-//       friend.friends = friend.friends.filter((id) => id !== id);
-//     } else {
-//       user.friends.push(friendId);
-//       friend.friends.push(id);
-//     }
-//     await user.save();
-//     await friend.save();
-
-//     const friends = await Promise.all(
-//       user.friends.map((id) => userModel.findById(id))
-//     );
-//     const formattedFriends = friends.map(
-//       ({ _id, firstName, lastName, occupation, location, picturePath }) => {
-//         return { _id, firstName, lastName, occupation, location, picturePath };
-//       }
-//     );
-
-//     res.status(200).send(formattedFriends);
-//   } catch (err) {
-//     res.status(404).send({ message: err.message });
-//   }
-// };
 
 module.exports = {
   getUserFromSearch,

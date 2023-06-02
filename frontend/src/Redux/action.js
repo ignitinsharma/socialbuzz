@@ -63,15 +63,27 @@ export const setFollowUser =
         { headers }
       )
       .then((res) => {
+        console.log("inside redux follow", res);
+        // if()
         dispatch({ type: GET_FOLLOW_USER, payload: res.data });
+        console.log("paylodad", res);
       });
   };
-export const setUnFollowUser = (headers, userId) => (dispatch) => {
-  axios.put(`http://localhost:8080/user/unfollow`, { headers }).then((res) => {
-    // console.log("redux action response ", res.data);
-    dispatch({ type: GET_UNFOLLOW_USER, payload: res.data });
-  });
-};
+
+export const setUnFollowUser =
+  (headers, userIdWhoIsFollowing, userWhoIsGettingFollower) => (dispatch) => {
+    axios
+      .put(
+        `http://localhost:8080/user/unfollow`,
+        { userIdWhoIsFollowing, userWhoIsGettingFollower },
+        { headers }
+      )
+      .then((res) => {
+        console.log("inside redux unfolllow", res);
+        // if()
+        dispatch({ type: GET_UNFOLLOW_USER, payload: res.data });
+      });
+  };
 
 export const setPost = (post) => (dispatch) => {
   dispatch({ type: SET_POST, payload: { post } });

@@ -4,6 +4,7 @@ import {
   GET_POSTS,
   GET_SINGLE_USER,
   GET_SINGLE_USER_POST,
+  GET_UNFOLLOW_USER,
   SET_FRIENDS,
   SET_LOGIN,
   SET_LOGOUT,
@@ -17,6 +18,7 @@ const initialState = {
   allusers: [],
   singleUserPost: [],
   singleUser: null,
+  isFollowUser: false,
 };
 
 export const mainReducer = (state = initialState, { type, payload }) => {
@@ -71,17 +73,15 @@ export const mainReducer = (state = initialState, { type, payload }) => {
     case GET_FOLLOW_USER: {
       return {
         ...state,
-        ...state.allusers,
-        allusers: payload,
+        isFollowUser: true,
       };
     }
-    // case SET_POST: {
-    //   const updatedPosts = state.posts.map((post) => {
-    //     if (post._id === payload.post._id) return payload.post;
-    //     return post;
-    //   });
-    //   return { ...state, posts: updatedPosts };
-    // }
+    case GET_UNFOLLOW_USER: {
+      return {
+        ...state,
+        isFollowUser: false,
+      };
+    }
     default: {
       return state;
     }

@@ -44,10 +44,17 @@ export default function Navbar() {
   const [searchUsers, setsearchUsers] = useState([]);
   const [handleInputValue, setHandleInputValue] = useState(null);
   const dropdownRef = useRef(null);
+  const [togglePage, settogglePage] = useState(false);
 
   const handleLogoutClick = () => {
     dispatch(setLogout());
     navigate("/");
+    window.location.reload();
+    handleToggle();
+  };
+
+  const handleToggle = () => {
+    settogglePage(!togglePage);
   };
 
   const handleClickOutside = (event) => {
@@ -62,7 +69,7 @@ export default function Navbar() {
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, []);
+  }, [togglePage]);
 
   const handleInputKeyPress = async (event) => {
     /* It means if user press enter then it will excute  */
@@ -90,6 +97,7 @@ export default function Navbar() {
       }
     }
   };
+  console.log(searchUsers);
 
   return (
     <>
@@ -125,7 +133,7 @@ export default function Navbar() {
                     placeholder="find users.."
                     border={"none"}
                     backgroundColor={"rgba(255, 255, 255, 0.08)"}
-                    w={"250px"}
+                    w={{ lg: "250px", base: "150px" }}
                     py={2}
                     px={4}
                     borderRadius={"8px"}
@@ -181,11 +189,11 @@ export default function Navbar() {
                   </List>
                 </Box>
               )}
-              <Box mr={1}>
+              {/* <Box mr={1}>
                 <Link href="signup">
                   <PersonIcon />
                 </Link>
-              </Box>
+              </Box> */}
             </Flex>
             <Box mr={1}>
               <Menu>
