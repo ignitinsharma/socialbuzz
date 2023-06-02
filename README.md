@@ -5,13 +5,14 @@ This is a social media application built using the MERN stack (MongoDB, Express.
 ## Technologies
 
 The project uses the following technologies and frameworks:
+
 - HTML
 - CSS
 - Javscript
 - React.js
 - Reduxjs
 - Chakra UI
-- MongoDB 
+- MongoDB
 - Express.js
 - Node.js
 - JSON Web Token (JWT)
@@ -44,11 +45,48 @@ The social media app includes the following features:
 
 6. **Search Functionality:** Users can search for other users or specific posts using keywords or usernames.
 
-
 ## Screenshots
-![Screenshot 1](screenshots/screenshot1.png)
-*Caption for screenshot 1*
 
-![Screenshot 2](screenshots/screenshot2.png)
-*Caption for screenshot 2*
+![Screenshot 1](<./Redme_images/Screenshot%20(645).png>)
 
+- Login Page \*
+
+![Screenshot 2](<./Redme_images/Screenshot%20(646).png>)
+
+- Register Page \*
+
+![Screenshot 3](<./Redme_images/Screenshot%20(633).png>)
+
+- Home Page \*
+
+![Screenshot ](<./Redme_images/Screenshot%20(642).png>)
+
+- Create Post Section \*
+
+![Screenshot 4](<./Redme_images/Screenshot%20(634).png>)
+
+- Search User \*
+
+![Screenshot 5](<./Redme_images/Screenshot%20(635).png>)
+
+- After clicking on user redirected to profile page \*
+
+![Screenshot 6](<./Redme_images/Screenshot%20(637).png>)
+
+- Solo post page for comments and likes \*
+
+![Screenshot 7](<./Redme_images/Screenshot%20(638).png>)
+
+- Profile section \*
+
+![Screenshot 8](<./Redme_images/Screenshot%20(639).png>)
+
+- Profile page showing that user post how much he post he/she did \*
+
+![Screenshot ](<./Redme_images/Screenshot%20(644).png>)
+
+- Comment Box \*
+
+![Screenshot ](<./Redme_images/Screenshot%20(641).png>)
+
+- Mobile responsive \*
