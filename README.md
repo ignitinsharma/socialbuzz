@@ -90,3 +90,8 @@ The social media app includes the following features:
 ![Screenshot ](<./Redme_images/Screenshot%20(641).png>)
 
 - Mobile responsive \*
+
+
+Still working on it and fixing the bugs and issues...
+
+Handcrafted with ❤ & imagination by Nitin Sharma.
