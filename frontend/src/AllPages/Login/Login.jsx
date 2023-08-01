@@ -20,8 +20,8 @@ const Login = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const [loginFormData, setloginFormData] = useState({
-    email: "",
-    password: "",
+    email: "nitinsharma@gmail.com",
+    password: "Nitin@9034",
   });
 
   const handleInputChange = (event) => {
